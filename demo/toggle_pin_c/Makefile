@@ -5,20 +5,20 @@
 # *** Fill out this information *** 
 
 #  Project Name
-PROJECT = bus_c
+PROJECT = toggle_pin_c
 #  List of the objects files to be compiled/assembled
 OBJECTS = main.o
 
 # Selected architecture/board
 ARCH = lpc17xx/mbed
+
 # Programming language for this project (C for C, CPP for C++)
 LANGUAGE = C
 
 # Compiling options
-DEBUG = -g
+DEBUG = 
 OPTIMIZATION = 1
-CFLAGS = 
-LDFLAGS = 
+CFLAGS =
 
 ########################################################################
 
