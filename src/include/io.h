@@ -57,7 +57,7 @@ extern "C" {
      *  @param ... nmodes PinMode values to set for this pin.
      *  @return An initialized pin structure.
      */
-    Pin_t Pin_Init(PinName pin_name, uint32_t modes, ...);
+    Pin_t Pin_Init(PinName pin_name, uint32_t nmodes, ...);
 
     /** Marks the pin as an output pin.
      *  Pins have to be set as output to turn them on or off.

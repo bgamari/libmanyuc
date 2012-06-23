@@ -77,6 +77,8 @@ extern "C" {
      *  ADC_INTERRUPT mode.
      *  @param pin The pin from which to read. Should be constructed 
      *             through AnalogIn_Init or AnalogIn_Get.
+     *  @param func The function that should be called when a value
+     *              is converted.
      */
     void AnalogIn_Attach(AnalogIn_t pin, ADC_Int_Func func);
 

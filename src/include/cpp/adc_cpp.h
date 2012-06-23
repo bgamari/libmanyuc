@@ -24,8 +24,8 @@
 #include "adc.h"
 #include <stdint.h>
 
-/** The analogin class represents an extenal analogin in the board,
- *  it can be used as input or output.
+/** The AnalogIn class represents an analog-digital converter 
+ *  in the board, that can be used to read values on the pins.
  *
  *  @author Margarita Manterola
  *  @date 2012

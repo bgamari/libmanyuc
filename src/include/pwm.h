@@ -65,12 +65,6 @@ extern "C" {
 
     /** Sets the period of the PWM signal.
      *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get
-     *  @param s The period of the signal, in seconds.
-     */
-    void PWMPin_Set_Period_ms(PWMPin_t pin, float ms);
-
-    /** Sets the period of the PWM signal.
-     *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get
      *  @param ms The period of the signal, in milliseconds.
      */
     void PWMPin_Set_Period_ms(PWMPin_t pin, float ms);

@@ -95,6 +95,6 @@ indent:
 		--recursive '../demo/*.c' --recursive '../demo/*.cpp' 
 	astyle --pad-oper --pad-header --unpad-paren --convert-tabs \
 		--indent=spaces=4 --align-pointer=name --mode=c --lineend=linux \
-		--suffix=none --recursive '*.h' --recursive '../demo/*.h'
+		--suffix=none --brackets=break --recursive '*.h' --recursive '../demo/*.h'
 
 .PHONY: indent

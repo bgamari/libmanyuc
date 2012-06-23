@@ -24,6 +24,13 @@
 #include "serial.h"
 #include <string.h>
 
+
+/** The Serial class represents a serial port that can be 
+ *  used to communicate with other serial devices.
+ *
+ *  @author Margarita Manterola
+ *  @date 2012
+ */
 class Serial {
 private:
     Serial_t port;
@@ -61,7 +68,6 @@ public:
 
     /** Transmits a byte buffer through the serial port.
      *
-     *  @param port The serial port obtained through Serial_Get.
      *  @param data The bytes to be sent through the serial port.
      *  @param length The amount of bytes to be sent. This value
      *  must be less or equal to the length of the buffer.
@@ -75,10 +81,6 @@ public:
     uint32_t write(uint8_t *data, uint32_t length, 
         SerialTransferMode mode=BLOCKING) {
         return Serial_Put_Bytes(this->port, data, length, mode);
-    }
-
-    void printf(char *data) {
-        Serial_Put_Bytes(this->port, (uint8_t *) data, strlen(data), BLOCKING);
     }
 
 };
