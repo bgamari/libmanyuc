@@ -20,7 +20,7 @@
 
 #include "libmanyuc.h"
 
-uint32_t i,j;
+uint32_t i, j;
 Pin_t debug;
 
 // Interrupt counter, toggles debug pin when 100k interrupts happen.

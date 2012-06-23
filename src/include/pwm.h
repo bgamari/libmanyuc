@@ -38,7 +38,7 @@ extern "C" {
 
     /** Opaque structure to hold pwm pin information.
      *  The data contained in the structure depends on the
-     *  architecture. It should be created through PWMPin_Get or 
+     *  architecture. It should be created through PWMPin_Get or
      *  PWMPin_Init.
      */
     typedef struct _pwm_pin_t PWMPin_t;
@@ -54,7 +54,7 @@ extern "C" {
      *  done for the pin itself.
      *  @param pin_name The pin on which the PWM cycle should be generated.
      *                  It must be a PWM enabled pin, or an error is shown.
-     */ 
+     */
     PWMPin_t PWMPin_Get(PinName pin_name);
 
     /** Sets the period of the PWM signal.
@@ -77,13 +77,13 @@ extern "C" {
 
     /** Sets the duty cycle of the PWM signal.
      *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get
-     *  @param duty The duty cycle to set. Values should be between 0 and 1. 
-     *  0 means always off, 1 means always on. 
+     *  @param duty The duty cycle to set. Values should be between 0 and 1.
+     *  0 means always off, 1 means always on.
      */
     void PWMPin_Set_Duty_Cycle(PWMPin_t pin, float duty);
 
     /** Sets the exact cycle count, the meaning of this value is
-     *  architecture dependant. 
+     *  architecture dependant.
      *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get
      *  @param count The amount of cycles that the signal should be on.
      */

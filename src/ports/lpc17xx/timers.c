@@ -58,7 +58,7 @@ static SWTimer_t *_swtimer = NULL;
 // Array to access the 4 hardware timers
 static LPC_TIM_TypeDef *_timers[4] = { LPC_TIM0, LPC_TIM1, LPC_TIM2, LPC_TIM3};
 
-// Internal function to enable the hardware timer 
+// Internal function to enable the hardware timer
 static inline void _timer_init(uint8_t timer_id) {
 
     LPC_SC->PCONP |= TIMER_POWER_BITMASK(timer_id); // enable power
@@ -90,8 +90,8 @@ static inline void _timer_set_mr(uint8_t timer_id, uint8_t mr_id, uint32_t time_
 }
 
 // Update a MR when a reload value changes
-static inline void _timer_update_mr(uint8_t timer_id, uint8_t mr_id, 
-    uint32_t time_delay) {
+static inline void _timer_update_mr(uint8_t timer_id, uint8_t mr_id,
+                                    uint32_t time_delay) {
 
     // Get the needed numbers
     uint32_t tc = _timers[timer_id]->TC;
@@ -103,7 +103,7 @@ static inline void _timer_update_mr(uint8_t timer_id, uint8_t mr_id,
     // Update software ticker
     if (timer_id == SW_TIMER_ID) {
         uint32_t spent = (tc - (old_mr - _sch_timers[timer_id][mr_id].reload));
-        SWTimer_TickMany(_swtimer, mr_id, spent/time_delay);
+        SWTimer_TickMany(_swtimer, mr_id, spent / time_delay);
     }
 }
 
@@ -116,8 +116,8 @@ static inline void _sch_timers_init(uint8_t timer_id) {
     _timer_init(timer_id);
 }
 
-void _timer_sch_store (timer_sch_t *timer_sch, Int_Func func, 
-    uint32_t time_delay, uint8_t repeat) {
+void _timer_sch_store(timer_sch_t *timer_sch, Int_Func func,
+                      uint32_t time_delay, uint8_t repeat) {
     timer_sch->func = func;
     timer_sch->active = 1;
     timer_sch->used = 1;
@@ -125,8 +125,8 @@ void _timer_sch_store (timer_sch_t *timer_sch, Int_Func func,
 }
 
 // Create a scheduler
-Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay, 
-        uint8_t repeat) {
+Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
+                              uint8_t repeat) {
 
     uint32_t timer_id = 0;
     uint32_t mr_id = 0;
@@ -137,14 +137,14 @@ Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
         mr_id    = _next_ts / HW_TIMER_AMOUNT;
         _next_ts++;
     } else {
-        if ( _swtimer == NULL ) {
+        if (_swtimer == NULL) {
             _swtimer = SWTimer_Init(SW_TIMER_MR_AMOUNT);
         }
-        
+
         // Modify values appropriately
         timer_id = SW_TIMER_ID;
         mr_id = SWTimer_Store(_swtimer, func, time_delay, repeat,
-            &sw_mr_id);
+                              &sw_mr_id);
         time_delay = SWTimer_Get_Reload(_swtimer, mr_id);
         func = NULL;
         repeat = 1;
@@ -164,8 +164,8 @@ Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
     }
 
     // Store the scheduling structure
-    _timer_sch_store(&(_sch_timers[timer_id][mr_id]), 
-            func, time_delay, repeat);
+    _timer_sch_store(&(_sch_timers[timer_id][mr_id]),
+                     func, time_delay, repeat);
 
     return scheduler;
 }
@@ -185,7 +185,7 @@ static inline void timer_sch_handle_int(uint8_t timer_id, uint8_t sw) {
     while (ints) {
         if (ints & 0x1) {
             _timers[timer_id]->MR[mr_id] = current_tc +
-                _sch_timers[timer_id][mr_id].reload;
+                                           _sch_timers[timer_id][mr_id].reload;
             if (sw) {
                 SWTimer_Tick(_swtimer, mr_id);
             } else {
@@ -194,14 +194,14 @@ static inline void timer_sch_handle_int(uint8_t timer_id, uint8_t sw) {
         }
         ints >>= 1;
         mr_id++;
-    
+
         // Check to avoid missing interrupts - NOT WORKING
-/*        if (!ints) {
-            ints = (0xF) & _timers[timer_id]->IR;
-            _timers[timer_id]->IR = 0xF;
-            NVIC->ICPR[0] = (uint32_t)(1 << (timer_id + 1));
-            mr_id = 0;
-        }*/
+        /*        if (!ints) {
+                    ints = (0xF) & _timers[timer_id]->IR;
+                    _timers[timer_id]->IR = 0xF;
+                    NVIC->ICPR[0] = (uint32_t)(1 << (timer_id + 1));
+                    mr_id = 0;
+                }*/
     }
 }
 
@@ -218,8 +218,8 @@ static inline void hw_timer_sch_handle_int(uint8_t timer_id) {
     uint8_t mr_id = 0;
     for (mr_id = 0; mr_id < HW_TIMER_MR_AMOUNT; mr_id++) {
         timer_sch_t sch = _sch_timers[timer_id][mr_id];
-        if ((ints & 1 << mr_id) || 
-            (sch.active && _timers[timer_id]->MR[mr_id] <= current_tc)) {
+        if ((ints & 1 << mr_id) ||
+                (sch.active && _timers[timer_id]->MR[mr_id] <= current_tc)) {
             if (sch.reload) {
                 _timers[timer_id]->MR[mr_id] = current_tc + sch.reload;
             } else {

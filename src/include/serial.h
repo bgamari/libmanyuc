@@ -53,7 +53,7 @@ extern "C" {
      *
      *  @param number The serial port number in the microcontroller.
      *  @param baudrate The intended baudrate for the serial port.
-     *  @return An initialized serial port structure. 
+     *  @return An initialized serial port structure.
      */
     Serial_t Serial_Init(int number, int baudrate);
 

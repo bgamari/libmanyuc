@@ -37,7 +37,7 @@ extern "C" {
 
     /** Opaque structure to hold ADC information.
      *  The data contained in the structure depends on the
-     *  architecture. It should be created through 
+     *  architecture. It should be created through
      *  AnalogIn_Init or AnalogIn_Get.
      */
     typedef struct _analog_in_t AnalogIn_t;
@@ -49,33 +49,33 @@ extern "C" {
     typedef void (*ADC_Int_Func)(unsigned int);
 
     /** Returns a structure with the information necessary to read
-     *  from this pin. The pin must be an ADC enabled pin, or an 
+     *  from this pin. The pin must be an ADC enabled pin, or an
      *  error is shown. Tne pin is initialized so that it can be used
      *  as an ADC input.
      */
     AnalogIn_t AnalogIn_Init(PinName pin_name);
 
     /** Returns a structure with the information necessary to read
-     *  from this pin. The pin must be an ADC enabled pin, or an 
+     *  from this pin. The pin must be an ADC enabled pin, or an
      *  error is shown. No initialization is performed.
      */
     AnalogIn_t AnalogIn_Get(PinName pin_name);
 
     /** Returns a value read from the ADC pin specified.
-     * @param pin The pin from which to read. Should be constructed 
+     * @param pin The pin from which to read. Should be constructed
      *            through AnalogIn_Init or AnalogIn_Get.
      * @param mode The mode used to read. Basic modes are: ADC_NORMAL
-     *             and ADC_INTERRUPT. Other modes are architecture 
+     *             and ADC_INTERRUPT. Other modes are architecture
      *             dependent.
      * @return the value read from the ADC.
      */
     unsigned int AnalogIn_Read(AnalogIn_t pin, AnalogInMode mode);
 
     /** Attaches a function to be called when the conversion done
-     *  on pin is finished. It does not start the converstion. 
+     *  on pin is finished. It does not start the converstion.
      *  To start the conversion AnalogIn_Read should be called, with
      *  ADC_INTERRUPT mode.
-     *  @param pin The pin from which to read. Should be constructed 
+     *  @param pin The pin from which to read. Should be constructed
      *             through AnalogIn_Init or AnalogIn_Get.
      *  @param func The function that should be called when a value
      *              is converted.

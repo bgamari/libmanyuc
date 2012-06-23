@@ -43,22 +43,54 @@ void count3(void) {
     Pin_Toggle(leds[3]);
 }
 
-void toggle_pin_0(void) { Pin_Toggle(pins[0]); }
-void toggle_pin_1(void) { Pin_Toggle(pins[1]); }
-void toggle_pin_2(void) { Pin_Toggle(pins[2]); }
-void toggle_pin_3(void) { Pin_Toggle(pins[3]); }
-void toggle_pin_4(void) { Pin_Toggle(pins[4]); }
-void toggle_pin_5(void) { Pin_Toggle(pins[5]); }
-void toggle_pin_6(void) { Pin_Toggle(pins[6]); }
-void toggle_pin_7(void) { Pin_Toggle(pins[7]); }
-void toggle_pin_8(void) { Pin_Toggle(pins[8]); }
-void toggle_pin_9(void) { Pin_Toggle(pins[9]); }
-void toggle_pin_10(void) { Pin_Toggle(pins[10]); }
-void toggle_pin_11(void) { Pin_Toggle(pins[11]); }
-void toggle_pin_12(void) { Pin_Toggle(pins[12]); }
-void toggle_pin_13(void) { Pin_Toggle(pins[13]); }
-void toggle_pin_14(void) { Pin_Toggle(pins[14]); }
-void toggle_pin_15(void) { Pin_Toggle(pins[15]); }
+void toggle_pin_0(void) {
+    Pin_Toggle(pins[0]);
+}
+void toggle_pin_1(void) {
+    Pin_Toggle(pins[1]);
+}
+void toggle_pin_2(void) {
+    Pin_Toggle(pins[2]);
+}
+void toggle_pin_3(void) {
+    Pin_Toggle(pins[3]);
+}
+void toggle_pin_4(void) {
+    Pin_Toggle(pins[4]);
+}
+void toggle_pin_5(void) {
+    Pin_Toggle(pins[5]);
+}
+void toggle_pin_6(void) {
+    Pin_Toggle(pins[6]);
+}
+void toggle_pin_7(void) {
+    Pin_Toggle(pins[7]);
+}
+void toggle_pin_8(void) {
+    Pin_Toggle(pins[8]);
+}
+void toggle_pin_9(void) {
+    Pin_Toggle(pins[9]);
+}
+void toggle_pin_10(void) {
+    Pin_Toggle(pins[10]);
+}
+void toggle_pin_11(void) {
+    Pin_Toggle(pins[11]);
+}
+void toggle_pin_12(void) {
+    Pin_Toggle(pins[12]);
+}
+void toggle_pin_13(void) {
+    Pin_Toggle(pins[13]);
+}
+void toggle_pin_14(void) {
+    Pin_Toggle(pins[14]);
+}
+void toggle_pin_15(void) {
+    Pin_Toggle(pins[15]);
+}
 
 int main(void) {
 
@@ -86,7 +118,7 @@ int main(void) {
     pins[14] = Pin_Init(P19, 1, Output);
     pins[15] = Pin_Init(P20, 1, Output);
 
-    // Many different schedulers, 
+    // Many different schedulers,
     // going as fast as possible
     Scheduler_t s;
     s = Scheduler_Init_us(toggle_pin_0, 20, 1);
@@ -118,11 +150,11 @@ int main(void) {
     Scheduler_t s4 = Scheduler_Init(count3, 0.125, 1);
 
     // Blink at the same time
-/*    Scheduler_t s1 = Scheduler_Init(count0, 0.5, 1);
-    Scheduler_t s2 = Scheduler_Init(count1, 0.5, 1);
-    Scheduler_t s3 = Scheduler_Init(count2, 0.5, 1);
-    Scheduler_t s4 = Scheduler_Init(count3, 0.5, 1); */
-    
+    /*    Scheduler_t s1 = Scheduler_Init(count0, 0.5, 1);
+        Scheduler_t s2 = Scheduler_Init(count1, 0.5, 1);
+        Scheduler_t s3 = Scheduler_Init(count2, 0.5, 1);
+        Scheduler_t s4 = Scheduler_Init(count3, 0.5, 1); */
+
     while (1) {
         // Do nothing
     }

@@ -135,21 +135,21 @@ uint8_t port, uint8_t mode) {
 }
 
 // Call both handlers (if apropriate) and clear the interrupts
-static inline void io_interrupt_call_handlers(uint32_t *states, 
-    uint8_t id, uint8_t port_shift) {
+static inline void io_interrupt_call_handlers(uint32_t *states,
+uint8_t id, uint8_t port_shift) {
 
     uint32_t mask = (1 << id);
     Int_Func f = NULL;
 
     // Check which (or both) of the handlers has to be called
     if (states[0] & mask) {
-        f = (Int_Func) Hash_Get(io_interrupt_table, id 
-            + port_shift);
+        f = (Int_Func) Hash_Get(io_interrupt_table, id
+        + port_shift);
         if (f != NULL) f();
     }
     if (states[1] & mask) {
-        f = (Int_Func) Hash_Get(io_interrupt_table, id + 
-            port_shift + _IO_MODE_SHIFT);
+        f = (Int_Func) Hash_Get(io_interrupt_table, id +
+        port_shift + _IO_MODE_SHIFT);
         if (f != NULL) f();
     }
     // Set the interrupt as handled
@@ -162,7 +162,7 @@ static void io_interrupt_read_all(uint32_t *states,  uint8_t port_shift) {
     // OR both states (postive edge and negative edge)
     uint32_t ints = states[0] | states[1];
 
-    // Iterate the interrupt state vector until all interrupts 
+    // Iterate the interrupt state vector until all interrupts
     // have been handled
     uint8_t j = 0;
     while (ints != 0) {
@@ -181,7 +181,7 @@ void EINT3_IRQHandler(void) {
     io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO0IntStat, 0);
     io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO2IntStat, _IO_PORT_SHIFT);
 
-    /* 
+    /*
      * This code is commented out because the other alternative is better.
      *
     // If there are less than 16 interrupts registered,
@@ -202,7 +202,7 @@ void EINT3_IRQHandler(void) {
     }
     // If there are more than 16 interrupts registered,
     // go through the interrupt state vectors.
-    else { 
+    else {
         io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO0IntStat, 0);
         io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO2IntStat, 32);
     }

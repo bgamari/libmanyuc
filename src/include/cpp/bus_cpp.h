@@ -31,12 +31,13 @@
  *  @date 2012
  */
 
-class Bus {
+class Bus
+{
 private:
     Bus_t bus;
 public:
-    /** Bus Constructor.  A Bus is a group of pins that 
-     *  can be quickly set all at the same time, or easily 
+    /** Bus Constructor.  A Bus is a group of pins that
+     *  can be quickly set all at the same time, or easily
      *  set and read in binary.
      *  @param npins the amount of pins for the bus.
      *  @param ... a list of pins to be added to the bus.
@@ -46,7 +47,8 @@ public:
     /** Bus destructor.
      *  Frees the memory allocated for the bus.
      */
-    ~Bus() {
+    ~Bus()
+    {
         Bus_Destroy(this->bus);
     }
 
@@ -56,41 +58,47 @@ public:
      *  @param mode The mode to set for the pins.
      *  Available modes depend on the architecture.
      */
-    void mode(PinMode mode) {
+    void mode(PinMode mode)
+    {
         PinBus_Mode(this->bus.pinBus, mode);
     }
 
-    /** Writes a value to all pins. 
+    /** Writes a value to all pins.
      *  @param value 0 turns the pins off, any other value turns them on.
      */
-    void write_all(int value) {
-        (value) ? PinBus_On(this->bus.pinBus): PinBus_Off(this->bus.pinBus);
+    void write_all(int value)
+    {
+        (value) ? PinBus_On(this->bus.pinBus) : PinBus_Off(this->bus.pinBus);
     }
 
-    /** Writes a value to the pins. 
+    /** Writes a value to the pins.
      *  @param value A number to write in binary to the pins.
      */
-    void write(unsigned int value) {
+    void write(unsigned int value)
+    {
         Bus_Write(this->bus, value);
     }
 
     /** Reads the value of the pins.
      *  @return The value read from the pins, in binary form.
      */
-    unsigned int read() {
+    unsigned int read()
+    {
         return Bus_Read(this->bus);
     }
 
     // Operator overloading
 
     /** Shorthand for write, sets the value to the pin. */
-    Bus &operator= (int value) {
+    Bus &operator= (int value)
+    {
         this->write(value);
         return *this;
     }
 
     /** Shorthand for read, returns the value of the pin. */
-    operator int() {
+    operator int()
+    {
         return this->read();
     }
 

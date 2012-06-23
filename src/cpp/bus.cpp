@@ -23,7 +23,7 @@
 
 // Only the constructor is here, the rest are all inline functions.
 
-Bus::Bus(int nmodes, ... ) {
+Bus::Bus(int nmodes, ...) {
 
     // Get the pinBus
     va_list pins;

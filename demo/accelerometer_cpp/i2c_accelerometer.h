@@ -9,7 +9,8 @@
 
 const int addr = 0x3A;
 
-class Accelerometer {
+class Accelerometer
+{
 
 private:
     I2C i2c;

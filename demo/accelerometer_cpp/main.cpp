@@ -22,10 +22,10 @@
 #include "i2c_accelerometer.h"
 #include <stdio.h>
 
-/* This example shows the current angle by reading 
+/* This example shows the current angle by reading
  * an accelorometer, and lighting up the leds. */
 
-void show_angle(Pin* pins, float x) {
+void show_angle(Pin *pins, float x) {
 
     pins[0] = 0;
     pins[1] = 0;
@@ -36,7 +36,7 @@ void show_angle(Pin* pins, float x) {
     if (vel == 0) {
         pins[1] = 1;
         pins[2] = 1;
-    } 
+    }
     if ((vel > -10) && (vel < -5)) pins[0] = 1;
     if ((vel > -6) && (vel < 0))   pins[1] = 1;
     if ((vel > 0) && (vel < 6))    pins[2] = 1;

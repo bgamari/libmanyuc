@@ -43,11 +43,11 @@ static inline void _set_input(uint32_t port, uint32_t mask) {
     //PIO[port].PIO_PER = mask;
     //PIO[port].PIO_IFDR = mask;
     // TODO: put in a different function
-    PMC->PMC_PCER0 = ( 1 << port_ids[port]);
+    PMC->PMC_PCER0 = (1 << port_ids[port]);
 }
 
-static __INLINE void _set_input_mode(uint32_t port, 
-    uint32_t mask, uint8_t mode) {
+static __INLINE void _set_input_mode(uint32_t port,
+                                     uint32_t mask, uint8_t mode) {
     // Set input type (PullUp, PullDown, PullNone)
     if (mode == PullUp) {
         PIO[port].PIO_PUER = mask;

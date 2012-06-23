@@ -101,7 +101,8 @@ extern "C" {
         PAD18 = ARM_P0_20,
         PAD19 = ARM_P2_9,
 
-        } PinName;
+    }
+    PinName;
 
 #ifdef __cplusplus
 }

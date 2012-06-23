@@ -33,7 +33,7 @@ extern "C" {
     typedef enum PinName {
 
 
-        } PinName;
+    } PinName;
 
 // All the rest should probably come from common.h
 

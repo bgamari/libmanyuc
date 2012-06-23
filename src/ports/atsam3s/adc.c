@@ -21,9 +21,10 @@
 #include "port.h"
 
 // To select the ADC Modes
-const static uint32_t names[] = { 
-    ARM_AD0, ARM_AD1, ARM_AD2, ARM_AD3, ARM_AD4, ARM_AD5, ARM_AD6, ARM_AD7, 
-    ARM_AD8, ARM_AD9, ARM_AD10, ARM_AD11, ARM_AD12, ARM_AD13, ARM_AD14 };
+const static uint32_t names[] = {
+    ARM_AD0, ARM_AD1, ARM_AD2, ARM_AD3, ARM_AD4, ARM_AD5, ARM_AD6, ARM_AD7,
+    ARM_AD8, ARM_AD9, ARM_AD10, ARM_AD11, ARM_AD12, ARM_AD13, ARM_AD14
+};
 
 // Amount of ADC available
 #define ADC_AMOUNT          8
@@ -80,8 +81,8 @@ static void ADC_Init() {
     // * The clock divider to 4 (12 MHz).
     // * No analog change
     // * No sequence
-    ADC->ADC_MR = ADC_MR_PRESCAL(1) | ADC_MR_STARTUP(8) | 
-        ADC_MR_TRANSFER(1) | ADC_MR_TRACKTIM(0) | ADC_MR_SETTLING(3);
+    ADC->ADC_MR = ADC_MR_PRESCAL(1) | ADC_MR_STARTUP(8) |
+                  ADC_MR_TRANSFER(1) | ADC_MR_TRACKTIM(0) | ADC_MR_SETTLING(3);
 }
 
 uint32_t AnalogIn_Get(PinName pin_name) {

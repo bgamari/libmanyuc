@@ -25,28 +25,30 @@
 #include <string.h>
 
 
-/** The Serial class represents a serial port that can be 
+/** The Serial class represents a serial port that can be
  *  used to communicate with other serial devices.
  *
  *  @author Margarita Manterola
  *  @date 2012
  */
-class Serial {
+class Serial
+{
 private:
     Serial_t port;
 public:
-    
+
     /** Returns the serial port structure corresponding to the
      *  serial port number.  The pins corresponding to each serial
      *  port depend on the microcontroller.
      *
      *  @param number The serial port number in the microcontroller.
-     *  @param baudrate The baudrate to initialize the port. 
+     *  @param baudrate The baudrate to initialize the port.
                         Default: 9600.
      *  @return A serial port structure. The port is not initialized
      *  with this function.
      */
-    Serial(int number, int baudrate=9600) {
+    Serial(int number, int baudrate = 9600)
+    {
         this->port = Serial_Init(number, baudrate);
     }
 
@@ -54,7 +56,8 @@ public:
      *
      *  @return The byte received through the serial port.
      */
-    uint8_t read() {
+    uint8_t read()
+    {
         return Serial_Get_Byte(this->port);
     }
 
@@ -62,7 +65,8 @@ public:
      *
      *  @param data The byte to be sent through the serial port.
      */
-    void write(uint8_t data) {
+    void write(uint8_t data)
+    {
         Serial_Put_Byte(this->port, data);
     }
 
@@ -78,8 +82,9 @@ public:
      *     the internal timeout is reached.
      *  @return the amount of bytes that could be actually written.
      */
-    uint32_t write(uint8_t *data, uint32_t length, 
-        SerialTransferMode mode=BLOCKING) {
+    uint32_t write(uint8_t *data, uint32_t length,
+                   SerialTransferMode mode = BLOCKING)
+    {
         return Serial_Put_Bytes(this->port, data, length, mode);
     }
 

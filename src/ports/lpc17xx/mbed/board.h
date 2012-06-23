@@ -74,7 +74,8 @@ extern "C" {
         USBTX = ARM_P0_2,
         USBRX = ARM_P0_3,
 
-        } PinName;
+    }
+    PinName;
 
 #ifdef __cplusplus
 }

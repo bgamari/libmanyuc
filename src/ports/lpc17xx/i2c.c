@@ -132,8 +132,8 @@ I2C_t I2C_Init(uint8_t port, uint8_t address, I2CMode mode) {
     i2c_devs[port]->I2CONSET = I2C_I2CONSET_I2EN | I2C_I2CONSET_AA;
     //i2c_devs[port]->I2CONCLR = (I2C_I2CONCLR_STOC | I2C_I2CONCLR_STAC | I2C_I2CONCLR_SIC | I2C_I2CONCLR_AAC);
     // Clear Stop, Start, SI
-    i2c_devs[port]->I2CONCLR = (I2C_I2CONCLR_STOC | I2C_I2CONCLR_STAC | I2C_I2CONCLR_SIC );
-    
+    i2c_devs[port]->I2CONCLR = (I2C_I2CONCLR_STOC | I2C_I2CONCLR_STAC | I2C_I2CONCLR_SIC);
+
     uint8_t state = i2c_devs[port]->I2CONSET;
 
     // Return the I2C device

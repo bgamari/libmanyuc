@@ -59,12 +59,12 @@ int main(void) {
 
     Pin_t button = Pin_Init(SW1, 1, Output);
     Pin_Input(button),
-    Pin_Mode(button, PullUp);
+              Pin_Mode(button, PullUp);
 
     // Get the sensor enabler
     Pin_t enabler = Pin_Init(LED_EN, 1, Output);
     Pin_Output(enabler),
-    Pin_On(enabler);
+               Pin_On(enabler);
 
     // Get AnalogIns
     uint32_t sensors[] = {
@@ -72,7 +72,8 @@ int main(void) {
         AnalogIn_Get(SENS1),
         AnalogIn_Get(SENS2),
         AnalogIn_Get(SENS3),
-        AnalogIn_Get(SENS4) };
+        AnalogIn_Get(SENS4)
+    };
     int nsensors = 5;
 
     while (1) {
@@ -88,14 +89,14 @@ int main(void) {
         }
 
 
-/*      for (i = 0; i < nleds; i++) {
-            Pin_On(leds[i]);
-            Delay(0.2);
-        }
-        for (i = 0; i < nleds; i++) {
-            Pin_Off(leds[i]);
-            Delay(0.2);
-        }*/
+        /*      for (i = 0; i < nleds; i++) {
+                    Pin_On(leds[i]);
+                    Delay(0.2);
+                }
+                for (i = 0; i < nleds; i++) {
+                    Pin_Off(leds[i]);
+                    Delay(0.2);
+                }*/
     }
 }
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -20,7 +20,7 @@
 
 #include "i2c.h"
 
-// Initialize an I2C communication 
+// Initialize an I2C communication
 I2C_t I2C_Init(uint8_t port, uint8_t address, I2CMode mode) {
 
     // Return the I2C device
@@ -36,12 +36,12 @@ uint8_t I2C_Read_Byte(I2C_t device, uint8_t address) {
 // Read many bytes from the device
 uint8_t I2C_Read_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {
     return 0
-}
+       }
 
 // Write one byte to the device
 uint8_t I2C_Write_Byte(I2C_t device, uint8_t address, uint8_t data) {
     return 0
-}
+       }
 
 // Write many bytes to the device
 uint8_t I2C_Write_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {

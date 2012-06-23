@@ -47,7 +47,7 @@ SWTimer_t *SWTimer_Init(uint32_t slots);
  * @return The slot number where the callback was stored.
  */
 uint32_t SWTimer_Store(SWTimer_t *timer, Int_Func func,
-                uint32_t time_delay, uint8_t repeat, uint32_t *mr_id);
+                       uint32_t time_delay, uint8_t repeat, uint32_t *mr_id);
 
 /** Increments the internal time counter.  The frequency of calling this
  * ticker is determined by the the Reload value of the slot.
@@ -56,7 +56,7 @@ uint32_t SWTimer_Store(SWTimer_t *timer, Int_Func func,
  */
 void SWTimer_Tick(SWTimer_t *timer, uint32_t slot);
 
-/** Increments the internal time counter by value N.  
+/** Increments the internal time counter by value N.
  * Useful to call it when modifying the frequency.
  * @param timer An initialized software timer.
  * @param slot The slot that has to be incremented.
@@ -64,21 +64,21 @@ void SWTimer_Tick(SWTimer_t *timer, uint32_t slot);
  */
 void SWTimer_TickMany(SWTimer_t *timer, uint32_t slot, uint32_t n);
 
-/** Returns the current time counter for the selected slot. 
+/** Returns the current time counter for the selected slot.
  * @param timer An initialized software timer.
  * @param slot The slot that has to be queried.
  * @return The current time counter for that slot.
  */
 uint32_t SWTimer_Get_TC(SWTimer_t *timer, uint32_t slot);
 
-/** Returns the current reload value for the selected slot. 
+/** Returns the current reload value for the selected slot.
  * @param timer An initialized software timer.
  * @param slot The slot that has to be queried.
  * @return The current reload value for that slot.
  */
 uint32_t SWTimer_Get_Reload(SWTimer_t *timer, uint32_t slot);
 
-/** Returns the current length of scheduled tasks for the selected slot. 
+/** Returns the current length of scheduled tasks for the selected slot.
  * @param timer An initialized software timer.
  * @param slot The slot that has to be queried.
  * @return The current length of scheduled tasks for that slot.
@@ -86,11 +86,11 @@ uint32_t SWTimer_Get_Reload(SWTimer_t *timer, uint32_t slot);
 uint32_t SWTimer_Get_Length(SWTimer_t *timer, uint32_t slot);
 
 
-/** Releases all the memory allocated for the software timer. 
+/** Releases all the memory allocated for the software timer.
  * @param timer An initialized software timer.
  */
 void SWTimer_Destroy(SWTimer_t *timer);
 
 
-#endif 
+#endif
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

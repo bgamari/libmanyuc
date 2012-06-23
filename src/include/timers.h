@@ -44,7 +44,7 @@ extern "C" {
     /** Initializes a scheduled task and starts executing that task.
      *  @param func The task function to call.
      *  @param delay_us The delay with which to call the function, in
-     *                  microseconds. The lower limit for this value is 
+     *                  microseconds. The lower limit for this value is
      *                  architecture dependent.
      *  @param repeat Whether this task should be repeated or not (1 to
      *                repeat, 0 to execute only once).
@@ -55,32 +55,33 @@ extern "C" {
     /** Initializes a scheduled task and starts executing that task.
      *  @param func The task function to call.
      *  @param delay The delay with which to call the function, in
-     *               seconds. The lower limit for this value is 
+     *               seconds. The lower limit for this value is
      *               architecture dependent.
      *  @param repeat Whether this task should be repeated or not (1 to
      *                repeat, 0 to execute only once).
      *  @return An initialized Scheduler_t structure.
      */
     static inline Scheduler_t Scheduler_Init(Int_Func func, float delay,
-        uint8_t repeat) 
+            uint8_t repeat)
     {
-        return Scheduler_Init_us(func, delay*1000000, repeat);
+        return Scheduler_Init_us(func, delay * 1000000, repeat);
     }
 
-    /** Does nothing, for the amount of microseconds specified. 
+    /** Does nothing, for the amount of microseconds specified.
      *  @param us amount of microseconds to wait.
      */
     void Delay_us(uint32_t us);
 
-    /** Does nothing, for the amount of milliseconds specified. 
+    /** Does nothing, for the amount of milliseconds specified.
      *  @param ms amount of milliseconds to wait.
      */
     void Delay_ms(uint32_t ms);
 
-    /** Does nothing, for the amount of seconds specified. 
+    /** Does nothing, for the amount of seconds specified.
      *  @param s amount of seconds to wait.
      */
-    static inline void Delay(float s) {
+    static inline void Delay(float s)
+    {
         Delay_ms(s * 1000);
     }
 

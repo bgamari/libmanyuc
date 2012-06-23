@@ -46,7 +46,8 @@ extern "C" {
     extern IO_TypeDef *GIO;
 
 // Names of the Pins
-    enum PinName {
+    enum PinName
+    {
 
         // The UC pin names
         UC_P0_0 = 0, UC_P0_1, UC_P0_2, UC_P0_3,
@@ -126,29 +127,34 @@ extern "C" {
                            PullDown = 3, OpenDrain = 4
                          } PinMode;
 
-    typedef enum IOIntMode {
+    typedef enum IOIntMode
+    {
         IOIntRise = 0, IOIntFall = 1,
     } IOIntMode;
 
 // Pin structure to hold port and address
-    struct _pin_t {
+    struct _pin_t
+    {
         uint16_t port;
         uint16_t address;
         uint32_t mask;
     };
 
 // Port structure for buses
-    typedef struct Port_t {
+    typedef struct Port_t
+    {
         uint32_t mask;
         uint32_t half_mask[2];
     } Port_t;
 
 // Bus structure
-    struct _pinBus_t {
+    struct _pinBus_t
+    {
         Port_t ports[5];
     };
 
-    struct _i2c_t {
+    struct _i2c_t
+    {
         uint8_t port;
         uint8_t address;
         uint8_t mode;

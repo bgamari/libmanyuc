@@ -161,7 +161,7 @@ inline char Serial_Get_Byte(Serial_t port) {
 
 // Reads the amount of bytes from the serial port into the buffer.
 // Memory for the buffer must have been allocated first.
-uint32_t Serial_Get_Bytes(Serial_t port, SerialTransferMode mode, 
+uint32_t Serial_Get_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length) {
 
     uint32_t i = 0, wait;
@@ -198,8 +198,8 @@ inline void Serial_Put_Byte(Serial_t port, char data) {
 }
 
 
-static inline uint32_t _fill_fifo_queue(Serial_t port, char* data,
-        uint32_t start, uint32_t end) {
+static inline uint32_t _fill_fifo_queue(Serial_t port, char *data,
+                                        uint32_t start, uint32_t end) {
     // Fill the fifo queue with bytes
     uint32_t c = UART_TX_FIFO_SIZE;
     while ((start < end) && (c > 0)) {
@@ -224,10 +224,10 @@ static void _send_data(int id) {
     if (!_bgdata[id]) return;
 
     Serial_t port = Serial_Get(id);
-    _bgdata[id]->sent = _fill_fifo_queue(port, 
-        _bgdata[id]->data,
-        _bgdata[id]->sent,
-        _bgdata[id]->length);
+    _bgdata[id]->sent = _fill_fifo_queue(port,
+                                         _bgdata[id]->data,
+                                         _bgdata[id]->sent,
+                                         _bgdata[id]->length);
 
     // Check if the transmission was completed
     if (_bgdata[id]->sent >= _bgdata[id]->length) {
@@ -240,8 +240,8 @@ static void _send_data(int id) {
     }
 }
 
-static void _background_send(Serial_t port, char *data, 
-    uint32_t length) {
+static void _background_send(Serial_t port, char *data,
+                             uint32_t length) {
 
     // Disable interrupts to prevent possible concurrency problems
     NVIC->ICER[0] = (1 << (5 + port.number));
@@ -273,7 +273,7 @@ static void _background_send(Serial_t port, char *data,
 }
 
 // Send bytes in several different modes
-uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode, 
+uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length)  {
 
     uint32_t i = 0, wait;
@@ -304,7 +304,7 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
     return i;
 }
 
-static FILE* _serial_files[] = { 0, 0, 0, 0 };
+static FILE *_serial_files[] = { 0, 0, 0, 0 };
 FILE *Serial_Get_File(Serial_t port) {
     if (! _serial_files[port.number]) {
         _serial_files[port.number] = fdopen(0x0100 | port.number, "r+");

@@ -74,7 +74,7 @@ AnalogIn_t AnalogIn_Init(PinName pin_name) {
     }
 
     AnalogIn_t analog_in = AnalogIn_Get(pin_name);
- 
+
     // Set the pin bit function
     Pin_t pin = Pin_Get(pin_name);
     Pin_Input(pin);
@@ -122,11 +122,11 @@ unsigned int static inline _analog_in_read_three(uint8_t channel) {
         results[i] = ADC_DR_GET_RESULT(LPC_ADC->ADDR[channel]);
     }
     // Return the median value of the result
-    if (((results[0] > results[1]) && (results[0] < results[2])) || 
-       ((results[0] < results[1]) && (results[0] > results[2]))) {
+    if (((results[0] > results[1]) && (results[0] < results[2])) ||
+            ((results[0] < results[1]) && (results[0] > results[2]))) {
         return results[0];
     } else if (((results[1] > results[0]) && (results[1] < results[2])) ||
-        ((results[1] < results[0]) && (results[1] > results[2]))) {
+               ((results[1] < results[0]) && (results[1] > results[2]))) {
         return results[1];
     } else {
         return results[2];
@@ -152,7 +152,7 @@ unsigned int AnalogIn_Read(AnalogIn_t pin, AnalogInMode mode) {
     }
 }
 
-static ADC_Int_Func* _analog_in_func = NULL;
+static ADC_Int_Func *_analog_in_func = NULL;
 
 void AnalogIn_Attach(AnalogIn_t pin, ADC_Int_Func func) {
 
@@ -181,8 +181,8 @@ void AnalogIn_Read_All(unsigned int speed) {
 
     // Enable interrupts and start reading in burst mode
     LPC_ADC->ADINTEN = channel_mask;
-    LPC_ADC->ADCR = channel_mask | ADC_CR_CLKDIV(speed) | 
-        ADC_CR_ENABLE | ADC_CR_BURST;
+    LPC_ADC->ADCR = channel_mask | ADC_CR_CLKDIV(speed) |
+                    ADC_CR_ENABLE | ADC_CR_BURST;
 }
 
 void AnalogIn_Stop_Reading() {

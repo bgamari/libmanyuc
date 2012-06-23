@@ -34,12 +34,12 @@ struct _sw_timer_slot_t {
     uint32_t reload;
     uint32_t tc;
     uint32_t length;
-    struct _scheduled_t* sch;
+    struct _scheduled_t *sch;
 };
 
 struct _sw_timer_t {
     uint32_t length;
-    struct _sw_timer_slot_t* slots;
+    struct _sw_timer_slot_t *slots;
 };
 
 SWTimer_t *SWTimer_Init(uint32_t slots) {
@@ -57,8 +57,8 @@ SWTimer_t *SWTimer_Init(uint32_t slots) {
     return t;
 }
 
-static inline uint32_t _find_best_slot(SWTimer_t *timer, 
-        uint32_t time_delay) {
+static inline uint32_t _find_best_slot(SWTimer_t *timer,
+                                       uint32_t time_delay) {
 
     int32_t best = -1, shortest = 0;
     uint32_t i;
@@ -69,7 +69,7 @@ static inline uint32_t _find_best_slot(SWTimer_t *timer,
         }
         // Find the best that shares a common divisor
         if (time_delay % timer->slots[i].reload == 0) {
-            if ( (best < 0) || (timer->slots[i].reload > timer->slots[best].reload)) {
+            if ((best < 0) || (timer->slots[i].reload > timer->slots[best].reload)) {
                 best = i;
             }
         }
@@ -86,8 +86,8 @@ static inline uint32_t _find_best_slot(SWTimer_t *timer,
 
 static inline uint32_t _add_sch(SWTimer_t *timer, uint32_t slot) {
     uint32_t amount = timer->slots[slot].length + 1;
-    timer->slots[slot].sch = realloc(timer->slots[slot].sch, 
-            amount * sizeof(struct _scheduled_t));
+    timer->slots[slot].sch = realloc(timer->slots[slot].sch,
+                                     amount * sizeof(struct _scheduled_t));
     if (timer->slots[slot].sch == NULL) Show_Error();
     timer->slots[slot].length = amount;
     return amount - 1;
@@ -104,8 +104,8 @@ static inline uint32_t _gcd(uint32_t a, uint32_t b) {
     return a;
 }
 
-static inline void _sch_store (struct _scheduled_t *sch, Int_Func func,
-    uint32_t time_delay, uint32_t tc, uint8_t repeat) {
+static inline void _sch_store(struct _scheduled_t *sch, Int_Func func,
+                              uint32_t time_delay, uint32_t tc, uint8_t repeat) {
     sch->func = func;
     sch->active = 1;
     sch->used = 1;
@@ -115,7 +115,7 @@ static inline void _sch_store (struct _scheduled_t *sch, Int_Func func,
 
 
 uint32_t SWTimer_Store(SWTimer_t *timer, Int_Func func,
-            uint32_t time_delay, uint8_t repeat, uint32_t *mr_id) {
+                       uint32_t time_delay, uint8_t repeat, uint32_t *mr_id) {
 
     if (time_delay == 0) Show_Error();
 
@@ -135,7 +135,7 @@ uint32_t SWTimer_Store(SWTimer_t *timer, Int_Func func,
             timer->slots[slot].reload = gcd;
             timer->slots[slot].tc *= factor;
             uint32_t i;
-            for (i = 0; i < (timer->slots[slot].length-1); i++) {
+            for (i = 0; i < (timer->slots[slot].length - 1); i++) {
                 timer->slots[slot].sch[i].reload *= factor;
                 timer->slots[slot].sch[i].expect *= factor;
             }
@@ -144,8 +144,8 @@ uint32_t SWTimer_Store(SWTimer_t *timer, Int_Func func,
 
     // Store this function
     time_delay = time_delay / timer->slots[slot].reload;
-    _sch_store(&(timer->slots[slot].sch[id]), func, time_delay, 
-        timer->slots[slot].tc, repeat);
+    _sch_store(&(timer->slots[slot].sch[id]), func, time_delay,
+               timer->slots[slot].tc, repeat);
 
     if (mr_id != NULL) *mr_id = id;
     return slot;
@@ -156,8 +156,8 @@ static inline void _handle_interrupt(SWTimer_t *timer, uint32_t slot, uint32_t i
         timer->slots[slot].sch[id].func();
     }
     if (timer->slots[slot].sch[id].reload) {
-        timer->slots[slot].sch[id].expect = timer->slots[slot].tc + 
-            timer->slots[slot].sch[id].reload;
+        timer->slots[slot].sch[id].expect = timer->slots[slot].tc +
+                                            timer->slots[slot].sch[id].reload;
     }
 }
 
@@ -176,10 +176,10 @@ void SWTimer_Tick(SWTimer_t *timer, uint32_t slot) {
 }
 
 void SWTimer_TickMany(SWTimer_t *timer, uint32_t slot, uint32_t n) {
-    timer->slots[slot].tc+=n;
+    timer->slots[slot].tc += n;
     _check_interrupts(timer, slot);
 }
- 
+
 uint32_t SWTimer_Get_TC(SWTimer_t *timer, uint32_t slot) {
     return timer->slots[slot].tc;
 }

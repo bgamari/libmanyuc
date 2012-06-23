@@ -21,7 +21,7 @@
 #include "io.h"
 #include <stdarg.h>
 
-// Convert the pin name to a pin struct. 
+// Convert the pin name to a pin struct.
 Pin_t Pin_Get(PinName pin_name) {
     Pin_t pin;
     return pin;

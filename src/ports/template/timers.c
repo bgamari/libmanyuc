@@ -21,8 +21,8 @@
 #include "timers.h"
 
 // Create a scheduler
-Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay, 
-        uint8_t repeat) {
+Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
+                              uint8_t repeat) {
 
     Scheduler_t scheduler;
     return scheduler;

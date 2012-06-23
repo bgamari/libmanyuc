@@ -40,10 +40,10 @@
  *        Exported variables
  *----------------------------------------------------------------------------*/
 
-/* Stack Configuration */  
+/* Stack Configuration */
 #define STACK_SIZE       0x900     /** Stack size (in DWords) */
-__attribute__ ((aligned(8),section(".stack")))
-uint32_t pdwStack[STACK_SIZE] ;     
+__attribute__((aligned(8), section(".stack")))
+uint32_t pdwStack[STACK_SIZE] ;
 
 /* Initialize segments */
 extern uint32_t _sfixed;
@@ -60,10 +60,10 @@ extern uint32_t _ezero;
  *----------------------------------------------------------------------------*/
 
 /** \cond DOXYGEN_SHOULD_SKIP_THIS */
-extern int main( void ) ;
+extern int main(void) ;
 /** \endcond */
-void ResetException( void ) ;
-extern void __libc_init_array( void ) ;
+void ResetException(void) ;
+extern void __libc_init_array(void) ;
 
 /*------------------------------------------------------------------------------
  *         Exception Table
@@ -131,8 +131,7 @@ IntFunc exception_table[] = {
  * \brief This is the code that gets called on processor reset.
  * To initialize the device, and call the main() routine.
  */
-void ResetException( void )
-{
+void ResetException(void) {
     uint32_t *pSrc, *pDest ;
 
     /* Low level Initialize */
@@ -142,27 +141,23 @@ void ResetException( void )
     pSrc = &_etext ;
     pDest = &_srelocate ;
 
-    if ( pSrc != pDest )
-    {
-        for ( ; pDest < &_erelocate ; )
-        {
+    if (pSrc != pDest) {
+        for (; pDest < &_erelocate ;) {
             *pDest++ = *pSrc++ ;
         }
     }
 
     /* Clear the zero segment */
-    for ( pDest = &_szero ; pDest < &_ezero ; )
-    {
+    for (pDest = &_szero ; pDest < &_ezero ;) {
         *pDest++ = 0;
     }
 
     /* Set the vector table base address */
     pSrc = (uint32_t *)&_sfixed;
-    SCB->VTOR = ( (uint32_t)pSrc & SCB_VTOR_TBLOFF_Msk ) ;
-    
-    if ( ((uint32_t)pSrc >= IRAM_ADDR) && ((uint32_t)pSrc < IRAM_ADDR+IRAM_SIZE) )
-    {
-	    SCB->VTOR |= 1 << SCB_VTOR_TBLBASE_Pos ;
+    SCB->VTOR = ((uint32_t)pSrc & SCB_VTOR_TBLOFF_Msk) ;
+
+    if (((uint32_t)pSrc >= IRAM_ADDR) && ((uint32_t)pSrc < IRAM_ADDR + IRAM_SIZE)) {
+        SCB->VTOR |= 1 << SCB_VTOR_TBLBASE_Pos ;
     }
 
     /* Initialize the C library */
@@ -175,6 +170,6 @@ void ResetException( void )
     main() ;
 
     /* Infinite loop */
-    while ( 1 ) ;
+    while (1) ;
 }
 

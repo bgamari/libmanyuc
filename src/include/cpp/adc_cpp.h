@@ -24,59 +24,65 @@
 #include "adc.h"
 #include <stdint.h>
 
-/** The AnalogIn class represents an analog-digital converter 
+/** The AnalogIn class represents an analog-digital converter
  *  in the board, that can be used to read values on the pins.
  *
  *  @author Margarita Manterola
  *  @date 2012
  */
 
-class AnalogIn {
+class AnalogIn
+{
 private:
     AnalogIn_t pin;
 public:
     /** AnalogIn Constructor.
      *  @param pin_name the board name for the pin.
-     *  The pin must be an ADC enabled pin, or an error is shown. 
+     *  The pin must be an ADC enabled pin, or an error is shown.
      *  Tne pin is initialized so that it can be used as an ADC input.
      */
-    AnalogIn(PinName pin_name) {
+    AnalogIn(PinName pin_name)
+    {
         this->pin = AnalogIn_Init(pin_name);
     }
 
     /** Returns the current value read on the pin.
      *  @param mode The mode used to read. Basic modes are: ADC_NORMAL
-     *              and ADC_INTERRUPT. Other modes are architecture 
+     *              and ADC_INTERRUPT. Other modes are architecture
      *              dependent.
      *  @return the value read from the ADC.
      */
-    unsigned int read(AnalogInMode mode) {
+    unsigned int read(AnalogInMode mode)
+    {
         return AnalogIn_Read(this->pin);
     }
 
     // Interrupt methods
 
     /** Attaches a function to be called when the conversion done
-     *  on pin is finished. It does not start the converstion. 
+     *  on pin is finished. It does not start the converstion.
      *  To start the conversion, read should be called, with
      *  ADC_INTERRUPT mode.
      */
-    void attach(ADC_Int_Func function) {
+    void attach(ADC_Int_Func function)
+    {
         AnalogIn_Attach(this->pin, function);
     }
 
     /** Detaches the interrupt that had been previously
      *  attached.
      */
-    void detach() {
+    void detach()
+    {
         AnalogIn_Detach(this->pin);
     }
-     
+
 
     // Operator overloading
 
     /** Shorthand for read, returns the value of the pin in normal mode. */
-    operator int() {
+    operator int()
+    {
         return this->read(ADC_NORMAL);
     }
 
@@ -87,13 +93,15 @@ public:
      *  @param speed A value to set the speed for the ADC conversion.
      *               Architecture dependent.
      */
-    static void read_all(unsigned int speed) {
+    static void read_all(unsigned int speed)
+    {
         AnalogIn_Read_All(speed);
     }
 
     /** Stop reading from many pins at the same time.
      */
-    static void stop_reading() {
+    static void stop_reading()
+    {
         AnalogIn_Stop_Reading();
     }
 

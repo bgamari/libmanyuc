@@ -23,7 +23,7 @@
 
 /*
  This example demonstrates the different ways of sending strings
- through the serial port: blocking, non-blocking, background, 
+ through the serial port: blocking, non-blocking, background,
  using fprintf.
 
  Finally, the main loop repeats all the characters received from the
@@ -33,10 +33,10 @@
 
 int main(void) {
 
-    Pin_t leds[] = { 
-        Pin_Init(LED4, 1, Output), 
+    Pin_t leds[] = {
+        Pin_Init(LED4, 1, Output),
         Pin_Init(LED3, 1, Output),
-        Pin_Init(LED2, 1, Output), 
+        Pin_Init(LED2, 1, Output),
         Pin_Init(LED1, 1, Output)
     };
     int nleds = 4;
@@ -44,14 +44,14 @@ int main(void) {
 
     // Initialize serial port
     Serial_t port = Serial_Init(0, 9600);
-    FILE * f = Serial_Get_File(port);
+    FILE *f = Serial_Get_File(port);
 
     // Send a string in non-blocking.  Only a part will be received
     uint32_t b = Serial_Put_Bytes(port, NONBLOCKING, "Hello World! How's it going? 0123456789ABCDEF\r\n", 47);
 
     // Send a formatted string using fprintf
-    fprintf(f,"\r\nSent bytes: %d\r\n", b);
-    fprintf(f,"File pointer: %p\r\n", f);
+    fprintf(f, "\r\nSent bytes: %d\r\n", b);
+    fprintf(f, "File pointer: %p\r\n", f);
 
     // Send a long string. Complete
     Serial_Put_Bytes(port, BLOCKING, "Hello World! How's it going? 0123456789ABCDEF\r\n", 47);

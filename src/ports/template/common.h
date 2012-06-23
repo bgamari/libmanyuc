@@ -30,13 +30,16 @@ extern "C" {
     typedef enum InternalPinName {
     } InternalPinName;
 
-    typedef enum PinMode {
+    typedef enum PinMode
+    {
     } PinMode;
 
-    typedef enum IOIntMode {
+    typedef enum IOIntMode
+    {
     } IOIntMode;
 
-    typedef enum AnalogInMode {
+    typedef enum AnalogInMode
+    {
     } AnalogInMode;
 
 // **********
@@ -44,35 +47,43 @@ extern "C" {
 // **********
 
 // Pin structure to hold port and address
-    struct _pin_t {
+    struct _pin_t
+    {
     };
 
 // Port structure for buses
-    typedef struct Port_t {
+    typedef struct Port_t
+    {
     } Port_t;
 
 // Bus structure
-    struct _pinBus_t {
+    struct _pinBus_t
+    {
     };
 
 // Serial port structure to hold all port info
-    struct _serial_t {
+    struct _serial_t
+    {
     };
 
 // PWM structure
-    struct _pwm_pin_t {
+    struct _pwm_pin_t
+    {
     };
 
 // Scheduler structure
-    struct _scheduler_t {
+    struct _scheduler_t
+    {
     };
 
 // I2C structure
-    struct _i2c_t {
+    struct _i2c_t
+    {
     };
 
 // AnalogIn structure
-    struct _analog_in_t {
+    struct _analog_in_t
+    {
     };
 
 #include "inline.c"

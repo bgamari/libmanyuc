@@ -70,7 +70,7 @@ extern "C" {
         PA21 = ARM_PA_21,
         PA18 = ARM_PA_18,
         PA17 = ARM_PA_17,
-        
+
         AD7 = ARM_AD7,
         AD6 = ARM_AD6,
         AD5 = ARM_AD5,
@@ -92,7 +92,8 @@ extern "C" {
         //USBTX = ARM_P0_2,
         //USBRX = ARM_P0_3,
 
-        } PinName;
+    }
+    PinName;
 
 #ifdef __cplusplus
 }

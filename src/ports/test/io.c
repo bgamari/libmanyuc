@@ -137,7 +137,7 @@ void PinBus_Mode(PinBus_t bus, PinMode mode) {
 }
 
 PinBus_t PinBus_Get_Notification() {
-        return PinBus_Get(4, LED1, LED2, LED3, LED4);
+    return PinBus_Get(4, LED1, LED2, LED3, LED4);
 }
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -86,9 +86,11 @@ extern "C" {
         SCL1 = ARM_P0_20,
         SDA2 = ARM_P0_10,
         SCL2 = ARM_P0_11,
-    } InternalPinName;
+    }
+    InternalPinName;
 
-    typedef enum PinMode {
+    typedef enum PinMode
+    {
         // Input Modes
         PullUp = 0, Repeater = 1, PullNone = 2, PullDown = 3,
         // OpenDrain vs NormalMode
@@ -99,38 +101,44 @@ extern "C" {
         Output = 16, Input,
     } PinMode;
 
-    typedef enum IOIntMode {
+    typedef enum IOIntMode
+    {
         IOIntRise = 0, IOIntFall = 1,
     } IOIntMode;
 
 // For serial ports
-    typedef enum SerialPortMode {
+    typedef enum SerialPortMode
+    {
         S0_Mode = Alt1,
         S1_Mode = Alt1,
         S2_Mode = Alt1,
         S3_Mode = Alt2
     } SerialPortMode;
 
-    typedef enum UARTNumber {
+    typedef enum UARTNumber
+    {
         UART_0 = LPC_UART0_BASE,
         UART_1 = LPC_UART1_BASE,
         UART_2 = LPC_UART2_BASE,
         UART_3 = LPC_UART3_BASE
     } UARTNumber;
 
-    typedef enum SerialPowerBit {
+    typedef enum SerialPowerBit
+    {
         PCUART0 = 3,
         PCUART1 = 4,
         PCUART2 = 24,
         PCUART3 = 25,
     } SerialPowerBit;
 
-    typedef enum SerialIRQType {
+    typedef enum SerialIRQType
+    {
         RX_INT = 0,
         TX_INT = 1,
     } SerialIRQType;
 
-    typedef enum AnalogInMode {
+    typedef enum AnalogInMode
+    {
         ADC_NORMAL,
         ADC_MEDIAN,
         ADC_INTERRUPT,
@@ -141,7 +149,8 @@ extern "C" {
 // **********
 
 // Pin structure to hold port and address
-    struct _pin_t {
+    struct _pin_t
+    {
         uint8_t port;
         uint8_t address;
         uint32_t mask;
@@ -149,19 +158,22 @@ extern "C" {
 // TODO: maybe the masks could be in code and use a macro to get them?
 
 // Port structure for buses
-    typedef struct Port_t {
+    typedef struct Port_t
+    {
         uint32_t mask;
         uint32_t half_mask[2];
     } Port_t;
 
 // Bus structure
 #define MAX_PORTS 3
-    struct _pinBus_t {
+    struct _pinBus_t
+    {
         Port_t ports[MAX_PORTS];
     };
 
 // Serial port structure to hold all port info
-    struct _serial_t {
+    struct _serial_t
+    {
         struct _pin_t tx;
         struct _pin_t rx;
         LPC_UART_TypeDef *uart;
@@ -169,26 +181,30 @@ extern "C" {
     };
 
 // PWM structure
-    struct _pwm_pin_t {
+    struct _pwm_pin_t
+    {
         uint32_t id;
     };
 
 // Scheduler structure
-    struct _scheduler_t {
+    struct _scheduler_t
+    {
         uint32_t timer_id;
         uint32_t mr_id;
         uint32_t sw_mr_id;
     };
 
 // I2C structure
-    struct _i2c_t {
+    struct _i2c_t
+    {
         uint8_t port;
         uint8_t address;
         uint8_t mode;
     };
 
 // AnalogIn structure
-    struct _analog_in_t {
+    struct _analog_in_t
+    {
         uint8_t channel;
     };
 

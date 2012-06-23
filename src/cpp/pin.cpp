@@ -23,7 +23,7 @@
 
 // Only the constructor is here, the rest are all inline functions.
 
-Pin::Pin(PinName pin_name, uint32_t nmodes, ... ) {
+Pin::Pin(PinName pin_name, uint32_t nmodes, ...) {
     this->pin = Pin_Get(pin_name);
 
     if (nmodes == 0) {

@@ -49,7 +49,7 @@ extern "C" {
      */
     Pin_t Pin_Get(PinName pin_name);
 
-    /** Creates the pin structure from the pin name, with the 
+    /** Creates the pin structure from the pin name, with the
      *  corresponding mode parameters.
      *  @param pin_name One of the available pin names,
      *  depending on the architecture.
@@ -198,7 +198,8 @@ extern "C" {
      *  The structure is architecture independent and
      *  should be created through Bus_Get.
      */
-    typedef struct _bus_t {
+    typedef struct _bus_t
+    {
         PinBus_t pinBus;
         uint32_t npins;
         Pin_t *pins;
@@ -263,7 +264,7 @@ extern "C" {
     /** Display an error with the arch leds.  Show's SOS in morse. */
     void Show_Error();
 
-    /** Set all pins on. */ 
+    /** Set all pins on. */
     void Pin_All_On(Pin_t *pins, int n);
 
     /** Set all pins off. */

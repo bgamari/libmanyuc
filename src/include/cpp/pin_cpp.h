@@ -31,7 +31,8 @@
  *  @date 2012
  */
 
-class Pin {
+class Pin
+{
 private:
     Pin_t pin;
 public:
@@ -44,42 +45,47 @@ public:
      */
     Pin(PinName pin_name, uint32_t nmodes = 0, ...);
 
-    /** Returns the current value set in the pin. 
+    /** Returns the current value set in the pin.
      *  @return 0 if the pin is off, 1 if it is on.
      */
-    int read() {
+    int read()
+    {
         return Pin_Read(this->pin);
     }
 
-    /** Writes a value for the pin. 
+    /** Writes a value for the pin.
      *  @param value 0 turns the pin off, any other value turns it on.
      */
-    void write(int value) {
-        (value) ? Pin_On(this->pin): Pin_Off(this->pin);
+    void write(int value)
+    {
+        (value) ? Pin_On(this->pin) : Pin_Off(this->pin);
     }
 
-    /** Sets the operation mode for the pin. 
+    /** Sets the operation mode for the pin.
      *  @param mode The mode to set for the pin.
      *  Available modes depend on the architecture.
      */
-    void mode(PinMode mode) {
+    void mode(PinMode mode)
+    {
         Pin_Mode(this->pin, mode);
     }
 
     /** Toggles the value of the pin. */
-    void toggle() {
+    void toggle()
+    {
         Pin_Toggle(this->pin);
     }
 
     // Interrupt methods
 
     /** Binds a function to be called when an interrupt occurrs on the
-     *  pin. 
+     *  pin.
      *  @param function A function to attach to the pin interrupt.
      *  @param mode The mode for the pin interrupt (architecture
      *  dependent).
      */
-    void attach(Int_Func function, IOIntMode mode) {
+    void attach(Int_Func function, IOIntMode mode)
+    {
         Pin_Int_Attach(this->pin, function, mode);
     }
 
@@ -87,27 +93,31 @@ public:
      *  attached/enabled.
      *  @param mode The mode for the pin interrupt that had been attached.
      */
-    void disable(IOIntMode mode) {
+    void disable(IOIntMode mode)
+    {
         Pin_Int_Disable(this->pin, mode);
     }
-     
+
     /** Enables a pin interrupt that had been previously disabled.
      *  @param mode The mode for the pin interrupt that had been attached.
      */
-    void enable(IOIntMode mode) {
+    void enable(IOIntMode mode)
+    {
         Pin_Int_Enable(this->pin, mode);
     }
 
     // Operator overloading
 
     /** Shorthand for write, sets the value to the pin. */
-    Pin &operator= (int value) {
+    Pin &operator= (int value)
+    {
         this->write(value);
         return *this;
     }
 
     /** Shorthand for read, returns the value of the pin. */
-    operator int() {
+    operator int()
+    {
         return this->read();
     }
 };

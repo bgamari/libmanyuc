@@ -107,7 +107,7 @@ inline void pwm_init() {
 
 PWMPin_t PWMPin_Get(PinName pin_name) {
 
-    PWMPin_t pwm_pin = { pwm_get_id( (InternalPinName) pin_name) };
+    PWMPin_t pwm_pin = { pwm_get_id((InternalPinName) pin_name) };
     Pin_t pin = Pin_Get(pin_name);
 
     // Check if pwm has been initialized

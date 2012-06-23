@@ -45,7 +45,7 @@
 /*----------------------------------------------------------------------------
  *        Exported functions
  *----------------------------------------------------------------------------*/
-extern void LowLevelInit( void ) ;
+extern void LowLevelInit(void) ;
 
 #endif /* BOARD_LOWLEVEL_H */
 

@@ -48,22 +48,22 @@
 #if (BOARD_MCK == 48000000)
 #define BOARD_OSCOUNT   (CKGR_MOR_MOSCXTST(0x8))
 #define BOARD_PLLAR     (CKGR_PLLAR_STUCKTO1 \
-                       | CKGR_PLLAR_MULA(0x7) \
-                       | CKGR_PLLAR_PLLACOUNT(0x1) \
-                       | CKGR_PLLAR_DIVA(0x1))
+                         | CKGR_PLLAR_MULA(0x7) \
+                         | CKGR_PLLAR_PLLACOUNT(0x1) \
+                         | CKGR_PLLAR_DIVA(0x1))
 #define BOARD_MCKR      (PMC_MCKR_PRES_CLK_2 | PMC_MCKR_CSS_PLLA_CLK)
 
 /* Clock settings at 64MHz */
 #elif (BOARD_MCK == 64000000)
 #define BOARD_OSCOUNT   (CKGR_MOR_MOSCXTST(0x8))
 #define BOARD_PLLAR     (CKGR_PLLAR_STUCKTO1 \
-                       | CKGR_PLLAR_MULA(0x0f) \
-                       | CKGR_PLLAR_PLLACOUNT(0x1) \
-                       | CKGR_PLLAR_DIVA(0x3))
+                         | CKGR_PLLAR_MULA(0x0f) \
+                         | CKGR_PLLAR_PLLACOUNT(0x1) \
+                         | CKGR_PLLAR_DIVA(0x3))
 #define BOARD_MCKR      (PMC_MCKR_PRES_CLK | PMC_MCKR_CSS_PLLA_CLK)
 
 #else
-    #error "No settings for current BOARD_MCK."
+#error "No settings for current BOARD_MCK."
 #endif
 
 /* Define clock timeout */
@@ -78,24 +78,22 @@
  * This includes EFC and master clock configuration.
  * It also enable a low level on the pin NRST triggers a user reset.
  */
-extern WEAK void LowLevelInit( void )
-{
+extern WEAK void LowLevelInit(void) {
     uint32_t timeout = 0;
 
     /* Set 3 FWS for Embedded Flash Access */
     EFC->EEFC_FMR = EEFC_FMR_FWS(3);
 
     /* Select external slow clock */
-  //  if ((SUPC->SUPC_SR & SUPC_SR_OSCSEL) != SUPC_SR_OSCSEL_CRYST)
-  //  {
-  //      SUPC->SUPC_CR = (uint32_t)(SUPC_CR_XTALSEL_CRYSTAL_SEL | SUPC_CR_KEY(0xA5));
-  //      timeout = 0;
-  //      while (!(SUPC->SUPC_SR & SUPC_SR_OSCSEL_CRYST) );
-  //  }
+    //  if ((SUPC->SUPC_SR & SUPC_SR_OSCSEL) != SUPC_SR_OSCSEL_CRYST)
+    //  {
+    //      SUPC->SUPC_CR = (uint32_t)(SUPC_CR_XTALSEL_CRYSTAL_SEL | SUPC_CR_KEY(0xA5));
+    //      timeout = 0;
+    //      while (!(SUPC->SUPC_SR & SUPC_SR_OSCSEL_CRYST) );
+    //  }
 
     /* Initialize main oscillator */
-    if ( !(PMC->CKGR_MOR & CKGR_MOR_MOSCSEL) )
-    {
+    if (!(PMC->CKGR_MOR & CKGR_MOR_MOSCSEL)) {
         PMC->CKGR_MOR = CKGR_MOR_KEY(0x37) | BOARD_OSCOUNT | CKGR_MOR_MOSCRCEN | CKGR_MOR_MOSCXTEN;
         timeout = 0;
         while (!(PMC->PMC_SR & PMC_SR_MOSCXTS) && (timeout++ < CLOCK_TIMEOUT));
@@ -106,7 +104,7 @@ extern WEAK void LowLevelInit( void )
     timeout = 0;
     while (!(PMC->PMC_SR & PMC_SR_MOSCSELS) && (timeout++ < CLOCK_TIMEOUT));
     PMC->PMC_MCKR = (PMC->PMC_MCKR & ~(uint32_t)PMC_MCKR_CSS_Msk) | PMC_MCKR_CSS_MAIN_CLK;
-    for ( timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ; );
+    for (timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ;);
 
     /* Initialize PLLA */
     PMC->CKGR_PLLAR = BOARD_PLLAR;
@@ -115,8 +113,8 @@ extern WEAK void LowLevelInit( void )
 
     /* Switch to main clock */
     PMC->PMC_MCKR = (BOARD_MCKR & ~PMC_MCKR_CSS_Msk) | PMC_MCKR_CSS_MAIN_CLK;
-    for ( timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ; );
+    for (timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ;);
 
     PMC->PMC_MCKR = BOARD_MCKR ;
-    for ( timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ; );
+    for (timeout = 0; !(PMC->PMC_SR & PMC_SR_MCKRDY) && (timeout++ < CLOCK_TIMEOUT) ;);
 }

@@ -43,7 +43,7 @@ inline char Serial_Get_Byte(Serial_t port) {
 
 // Reads the amount of bytes from the serial port into the buffer.
 // Memory for the buffer must have been allocated first.
-uint32_t Serial_Get_Bytes(Serial_t port, SerialTransferMode mode, 
+uint32_t Serial_Get_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length) {
     return 0;
 }
@@ -55,7 +55,7 @@ inline void Serial_Put_Byte(Serial_t port, char data) {
 }
 
 // Send bytes in several different modes
-uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode, 
+uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length)  {
     return 0;
 }

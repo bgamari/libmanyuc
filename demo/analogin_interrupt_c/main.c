@@ -25,8 +25,8 @@
 /* This example reads two sensors, using the ADC3 and ADC4.
    To do that, the pins in P9 and P10 have to be turned on.
    The output read is sent through the serial port and the
-   pins P20 and P30 are turned on or off according to the value. 
-   
+   pins P20 and P30 are turned on or off according to the value.
+
    This example shows how to read using interrupts instead of blocking
    the CPU. Interrupts can be used once or many times. When using the
    Read_All alternative, you can set the speed of the reading.

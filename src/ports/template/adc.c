@@ -25,7 +25,7 @@ AnalogIn_t AnalogIn_Init(PinName pin_name) {
 
     // Create an AnalogIn structure
     AnalogIn_t analog_in = AnalogIn_Get(pin_name);
- 
+
 
     // Return the structure
     return analog_in;

@@ -999,10 +999,12 @@ extern "C" {
      */
     static __INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
     {
-        if (IRQn < 0) {
+        if (IRQn < 0)
+        {
             SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);
         } /* set Priority for Cortex-M  System Interrupts */
-        else {
+        else
+        {
             NVIC->IP[(uint32_t)(IRQn)] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff);
         }        /* set Priority for device specific Interrupts  */
     }
@@ -1023,10 +1025,12 @@ extern "C" {
     static __INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
     {
 
-        if (IRQn < 0) {
+        if (IRQn < 0)
+        {
             return((uint32_t)(SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] >> (8 - __NVIC_PRIO_BITS)));
         } /* get priority for Cortex-M  system interrupts */
-        else {
+        else
+        {
             return((uint32_t)(NVIC->IP[(uint32_t)(IRQn)]           >> (8 - __NVIC_PRIO_BITS)));
         } /* get priority for device specific interrupts  */
     }
@@ -1190,10 +1194,12 @@ extern "C" {
         \return             Received character
         \return         -1  No character received
      */
-    static __INLINE int32_t ITM_ReceiveChar(void) {
+    static __INLINE int32_t ITM_ReceiveChar(void)
+    {
         int32_t ch = -1;                           /* no character available */
 
-        if (ITM_RxBuffer != ITM_RXBUFFER_EMPTY) {
+        if (ITM_RxBuffer != ITM_RXBUFFER_EMPTY)
+        {
             ch = ITM_RxBuffer;
             ITM_RxBuffer = ITM_RXBUFFER_EMPTY;       /* ready for next character */
         }
@@ -1210,11 +1216,15 @@ extern "C" {
         \return          0  No character available
         \return          1  Character available
      */
-    static __INLINE int32_t ITM_CheckChar(void) {
+    static __INLINE int32_t ITM_CheckChar(void)
+    {
 
-        if (ITM_RxBuffer == ITM_RXBUFFER_EMPTY) {
+        if (ITM_RxBuffer == ITM_RXBUFFER_EMPTY)
+        {
             return (0);                                 /* no character available */
-        } else {
+        }
+        else
+        {
             return (1);                                 /*    character available */
         }
     }

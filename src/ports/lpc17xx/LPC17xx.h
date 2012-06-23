@@ -159,13 +159,16 @@ typedef struct
 /*------------- General Purpose Input/Output (GPIO) --------------------------*/
 typedef struct
 {
-    union {
+    union
+    {
         __IO uint32_t FIODIR;
-        struct {
+        struct
+        {
             __IO uint16_t FIODIRL;
             __IO uint16_t FIODIRH;
         };
-        struct {
+        struct
+        {
             __IO uint8_t  FIODIR0;
             __IO uint8_t  FIODIR1;
             __IO uint8_t  FIODIR2;
@@ -173,52 +176,64 @@ typedef struct
         };
     };
     uint32_t RESERVED0[3];
-    union {
+    union
+    {
         __IO uint32_t FIOMASK;
-        struct {
+        struct
+        {
             __IO uint16_t FIOMASKL;
             __IO uint16_t FIOMASKH;
         };
-        struct {
+        struct
+        {
             __IO uint8_t  FIOMASK0;
             __IO uint8_t  FIOMASK1;
             __IO uint8_t  FIOMASK2;
             __IO uint8_t  FIOMASK3;
         };
     };
-    union {
+    union
+    {
         __IO uint32_t FIOPIN;
-        struct {
+        struct
+        {
             __IO uint16_t FIOPINL;
             __IO uint16_t FIOPINH;
         };
-        struct {
+        struct
+        {
             __IO uint8_t  FIOPIN0;
             __IO uint8_t  FIOPIN1;
             __IO uint8_t  FIOPIN2;
             __IO uint8_t  FIOPIN3;
         };
     };
-    union {
+    union
+    {
         __IO uint32_t FIOSET;
-        struct {
+        struct
+        {
             __IO uint16_t FIOSETL;
             __IO uint16_t FIOSETH;
         };
-        struct {
+        struct
+        {
             __IO uint8_t  FIOSET0;
             __IO uint8_t  FIOSET1;
             __IO uint8_t  FIOSET2;
             __IO uint8_t  FIOSET3;
         };
     };
-    union {
+    union
+    {
         __O  uint32_t FIOCLR;
-        struct {
+        struct
+        {
             __O  uint16_t FIOCLRL;
             __O  uint16_t FIOCLRH;
         };
-        struct {
+        struct
+        {
             __O  uint8_t  FIOCLR0;
             __O  uint8_t  FIOCLR1;
             __O  uint8_t  FIOCLR2;
@@ -285,17 +300,20 @@ typedef struct
 /*------------- Universal Asynchronous Receiver Transmitter (UART) -----------*/
 typedef struct
 {
-    union {
+    union
+    {
         __I  uint8_t  RBR;
         __O  uint8_t  THR;
         __IO uint8_t  DLL;
         uint32_t RESERVED0;
     };
-    union {
+    union
+    {
         __IO uint8_t  DLM;
         __IO uint32_t IER;
     };
-    union {
+    union
+    {
         __I  uint32_t IIR;
         __O  uint8_t  FCR;
     };
@@ -317,17 +335,20 @@ typedef struct
 
 typedef struct
 {
-    union {
+    union
+    {
         __I  uint8_t  RBR;
         __O  uint8_t  THR;
         __IO uint8_t  DLL;
         uint32_t RESERVED0;
     };
-    union {
+    union
+    {
         __IO uint8_t  DLM;
         __IO uint32_t IER;
     };
-    union {
+    union
+    {
         __I  uint32_t IIR;
         __O  uint8_t  FCR;
     };
@@ -349,17 +370,20 @@ typedef struct
 
 typedef struct
 {
-    union {
+    union
+    {
         __I  uint8_t  RBR;
         __O  uint8_t  THR;
         __IO uint8_t  DLL;
         uint32_t RESERVED0;
     };
-    union {
+    union
+    {
         __IO uint8_t  DLM;
         __IO uint32_t IER;
     };
-    union {
+    union
+    {
         __I  uint32_t IIR;
         __O  uint8_t  FCR;
     };
@@ -785,7 +809,8 @@ typedef struct
     __O  uint32_t USBSysErrIntSet;
     uint32_t RESERVED4[15];
 
-    union {
+    union
+    {
         __I  uint32_t I2C_RX;                 /* USB OTG I2C Registers              */
         __O  uint32_t I2C_TX;
     };
@@ -795,11 +820,13 @@ typedef struct
     __O  uint32_t I2C_CLKLO;
     uint32_t RESERVED5[824];
 
-    union {
+    union
+    {
         __IO uint32_t USBClkCtrl;             /* USB Clock Control Registers        */
         __IO uint32_t OTGClkCtrl;
     };
-    union {
+    union
+    {
         __I  uint32_t USBClkSt;
         __I  uint32_t OTGClkSt;
     };
