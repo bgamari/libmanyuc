@@ -147,7 +147,7 @@ uint8_t I2C_Read_Byte(I2C_t device, uint8_t address) {
     return _recv_byte(device.port);
 }
 
-uint8_t I2C_Read_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {
+unsigned int I2C_Read_Bytes(I2C_t device, uint8_t address, uint8_t *data, unsigned int length) {
     _send_start(device.port);
     _send_address(device.port, address, 0x01);
     int i = 0;
@@ -163,7 +163,7 @@ uint8_t I2C_Write_Byte(I2C_t device, uint8_t address, uint8_t data) {
     return _send_byte(device.port, data);
 }
 
-uint8_t I2C_Write_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {
+unsigned int I2C_Write_Bytes(I2C_t device, uint8_t address, uint8_t *data, unsigned int length) {
     _send_start(device.port);
     _send_address(device.port, address, 0);
     int i = 0;

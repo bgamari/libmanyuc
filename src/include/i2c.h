@@ -70,7 +70,8 @@ extern "C" {
      *  @param length The amount of bytes to read into the array.
      *  @return The amount of bytes actually read.
      */
-    uint8_t I2C_Read_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length);
+    unsigned int I2C_Read_Bytes(I2C_t device, uint8_t address, 
+        uint8_t *data, unsigned int length);
 
     /** Writes one byte to the I2C bus.
      *  @param device An initialized I2C device
@@ -89,7 +90,8 @@ extern "C" {
      *  @param length The amount of bytes to read from the array
      *  @return The amount of bytes actually written.
      */
-    uint8_t I2C_Write_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length);
+    unsigned int I2C_Write_Bytes(I2C_t device, uint8_t address, 
+        uint8_t *data, unsigned int length);
 
     /** Generate a start condition in the I2C bus.
      *  Only meaningful in Master mode.
