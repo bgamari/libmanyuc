@@ -1,5 +1,5 @@
 /*
- * libmanyuc - LPC PWM File
+ * libmanyuc - LPC I2C File
  * Copyright (C) 2012 - Margarita Manterola Rivero
  *
  * This library is free software; you can redistribute it and/or

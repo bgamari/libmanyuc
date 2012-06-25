@@ -28,6 +28,10 @@ COMMON_OBJECTS := $(addprefix $(LIB_BASE)/, $(COMMON_OBJECTS))
 # List of objects in assembler
 ASSEMBLER_OBJECTS := $(OBJECTS:.o=.s)
 
+# Add modules
+MODULE_DIR := $(LIB_BASE)/modules/spi
+include $(MODULE_DIR)/Makefile
+
 # Include the appropriate Makefile
 ARCH_DIR := $(LIB_BASE)/ports/$(ARCH)
 ifneq "$(ARCH)" "" 
