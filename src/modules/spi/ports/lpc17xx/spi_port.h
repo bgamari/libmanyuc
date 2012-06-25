@@ -25,13 +25,13 @@
 extern "C" {
 #endif
 
-	#include "common.h"
+	#include "board.h"
 
 	typedef enum SPIPinNames {
 		SCLK = ARM_P0_15,
-		SSEL = ARP_P0_16,
-		MISO = ARP_P0_17,
-		MOSI = ARP_P0_18,
+		SSEL = ARM_P0_16,
+		MISO = ARM_P0_17,
+		MOSI = ARM_P0_18,
 	} SPIPinNames;
 
     struct _spi_t {
@@ -41,4 +41,6 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

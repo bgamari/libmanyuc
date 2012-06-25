@@ -26,9 +26,9 @@
 #define SPI_SPSR_SPIF       ((1<<7))
 
 // Transmission modes
-#define SPI_SPCR_MSTR(n)    ((((0x1 & n)<<5))
-#define SPI_SPCR_LSBF(n)    ((((0x1 & n)<<6))
-#define SPI_SPCR_CPCH(n)    ((((0x3 & n)<<3))
+#define SPI_SPCR_MSTR(n)    (((0x1 & n)<<5))
+#define SPI_SPCR_LSBF(n)    (((0x1 & n)<<6))
+#define SPI_SPCR_CPCH(n)    (((0x3 & n)<<3))
 
 // Data
 #define SPI_SPDR_LO_MASK    ((0xFF))
@@ -49,7 +49,7 @@ static inline void _set_clock(uint8_t port, uint32_t hz) {
 
 SPI_t SPI_Init(uint8_t port, SPIBitOrder bit_order,
         SPIDataMode data_mode, SPIMode device_mode) {
-    if (port > r01) Show_Error();
+    if (port > 0) Show_Error();
 
     // Get involved pins
     Pin_t sclk = Pin_Get((PinName) SCLK);
@@ -92,7 +92,7 @@ inline uint8_t SPI_Transmit_Byte(SPI_t device, uint8_t data)
 }
 
 unsigned int SPI_Transmit_Bytes(SPI_t device, uint8_t *data,
-        unsigned int length);
+        unsigned int length) {
 
     unsigned int i = 0;
     for (; i < length; i++) {
