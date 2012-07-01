@@ -1,10 +1,10 @@
 #!/usr/bin/make
 
 #  List of the objects files to be compiled/assembled
-PORT_OBJECTS = startup_LPC17xx.o port.o io.o serial.o syscalls.o adc.o pwm.o timers.o i2c.o
-PORT_OBJECTS := $(addprefix $(ARCH_COMMON_DIR)/, $(PORT_OBJECTS))
-# Unused hack
-#INC_PORT_OBJS = $(addprefix $(ARCH_DIR)/, $(PORT_OBJECTS))
+MY_PORT_OBJECTS = startup_LPC17xx.o port.o io.o serial.o syscalls.o adc.o pwm.o timers.o i2c.o
+PORT_OBJECTS += $(addprefix $(ARCH_COMMON_DIR)/, $(MY_PORT_OBJECTS))
+
+# Linking script
 LSCRIPT=$(ARCH_COMMON_DIR)/LPC17xx.ld
 
 DEBUG ?= -g
