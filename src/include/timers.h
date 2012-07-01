@@ -50,7 +50,7 @@ extern "C" {
      *                repeat, 0 to execute only once).
      *  @return An initialized Scheduler_t structure.
      */
-    Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t delay_us, uint8_t repeat);
+    Scheduler_t Scheduler_Init_us(Int_Func func, unsigned int delay_us, uint8_t repeat);
 
     /** Initializes a scheduled task and starts executing that task.
      *  @param func The task function to call.
@@ -70,12 +70,12 @@ extern "C" {
     /** Does nothing, for the amount of microseconds specified.
      *  @param us amount of microseconds to wait.
      */
-    void Delay_us(uint32_t us);
+    void Delay_us(unsigned int us);
 
     /** Does nothing, for the amount of milliseconds specified.
      *  @param ms amount of milliseconds to wait.
      */
-    void Delay_ms(uint32_t ms);
+    void Delay_ms(unsigned int ms);
 
     /** Does nothing, for the amount of seconds specified.
      *  @param s amount of seconds to wait.
