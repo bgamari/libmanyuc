@@ -18,7 +18,7 @@
  * MA 02110-1301 USA
  */
 
-#include "port.h"
+#include "io.h"
 #include "board.h"
 
 /* Convert the pin name to a pin struct. */

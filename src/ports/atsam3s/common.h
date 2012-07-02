@@ -67,31 +67,6 @@ extern "C" {
                 ARM_AD12 = ARM_PC_12,
                 ARM_AD13 = ARM_PC_29,
                 ARM_AD14 = ARM_PC_30,
-
-                /*TX_0 = ARM_P0_2,
-                RX_0 = ARM_P0_3,
-                TX_1 = ARM_P0_10,
-                RX_1 = ARM_P0_11,
-                TX_2 = ARM_P0_15,
-                RX_2 = ARM_P0_16,
-                TX_3 = ARM_P0_0,
-                RX_3 = ARM_P0_1,
-
-                ADC0 = ARM_P0_23,
-                ADC1 = ARM_P0_24,
-                ADC2 = ARM_P0_25,
-                ADC3 = ARM_P0_26,
-                ADC4 = ARM_P1_30,
-                ADC5 = ARM_P1_31,
-                ADC6 = ARM_P0_3,
-                ADC7 = ARM_P0_2,
-
-                SDA0 = ARM_P0_27,
-                SCL0 = ARM_P0_28,
-                SDA1 = ARM_P0_19,
-                SCL1 = ARM_P0_20,
-                SDA2 = ARM_P0_10,
-                SCL2 = ARM_P0_11,*/
             }
             InternalPinName;
 
@@ -123,6 +98,12 @@ extern "C" {
         RX_INT = 0,
         TX_INT = 1,
     } SerialIRQType;
+
+    typedef enum AnalogInMode
+    {
+        ADC_NORMAL,
+        ADC_INTERRUPT,
+    } AnalogInMode;
 
 // **********
 // Structures
@@ -178,6 +159,12 @@ extern "C" {
         uint8_t address;
         uint8_t mode;
     };
+
+// AnalogIn structure
+    struct _analog_in_t
+    {
+        uint8_t channel;
+    };    
 
 #include "inline.c"
 

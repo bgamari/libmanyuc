@@ -20,6 +20,7 @@
 
 #include "swtimer.h"
 #include "port.h"
+#include "io.h"
 #include <stdlib.h>
 
 struct _scheduled_t {

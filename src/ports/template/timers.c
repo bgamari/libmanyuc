@@ -1,5 +1,5 @@
 /*
- * libmanyuc - LPC Timers
+ * libmanyuc - Template Arch Timers
  * Copyright (C) 2012 - Margarita Manterola Rivero
  *
  * This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 #include "timers.h"
 
 // Create a scheduler
-Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
+Scheduler_t Scheduler_Init_us(Int_Func func, unsigned int time_delay,
                               uint8_t repeat) {
 
     Scheduler_t scheduler;
@@ -29,12 +29,12 @@ Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
 }
 
 
-// Delays number of tick Systicks (happens every 1 ms)
-void Delay_ms(uint32_t ms) {
+// Delay in miliseconds
+void Delay_ms(unsigned int ms) {
 }
 
-// Delays in microseconds using timer 3.
-void Delay_us(uint32_t us) {
+// Delays in microseconds.
+void Delay_us(unsigned int us) {
 }
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

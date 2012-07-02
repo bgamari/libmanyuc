@@ -18,7 +18,8 @@
  * MA 02110-1301 USA
  */
 
-#include "port.h"
+#include "adc.h"
+#include "io.h"
 
 // To select the ADC Modes
 const static uint32_t names[] = {
@@ -85,19 +86,14 @@ static void ADC_Init() {
                   ADC_MR_TRANSFER(1) | ADC_MR_TRACKTIM(0) | ADC_MR_SETTLING(3);
 }
 
-uint32_t AnalogIn_Get(PinName pin_name) {
+AnalogIn_t AnalogIn_Init(PinName pin_name) {
 
     // Check if the global initialization is needed.
     if (!(PMC->PMC_PCER0 & ADC_POWER_BITMASK)) {
         ADC_Init();
     }
 
-    // Find out the id number of the pin.
-    // TODO: is there a better way of doing this?
-    int id = 0;
-    for (; id < ADC_AMOUNT; id++) {
-        if (names[id] == pin_name) break;
-    }
+    AnalogIn_t analog_in = AnalogIn_Get(pin_name);
 
     // Set the pin bit function
     Pin_t pin = Pin_Get(pin_name);
@@ -105,12 +101,22 @@ uint32_t AnalogIn_Get(PinName pin_name) {
     Pin_Mode(pin, PullNone);
     Pin_Mode(pin, PD);
 
-    return id;
+    return analog_in;
 }
 
-unsigned int AnalogIn_Read(uint32_t channel) {
+AnalogIn_t AnalogIn_Get(PinName pin_name) {
+    int id = 0;
+    for (; id < ADC_AMOUNT; id++) {
+        if (names[id] == pin_name) break;
+    }
+    AnalogIn_t analog_in = { id };
+    return analog_in;
+}
 
-    uint32_t channel_mask = ADC_CHANNEL_MASK(channel);
+
+unsigned int AnalogIn_Read(AnalogIn_t pin, AnalogInMode mode) {
+
+    uint32_t channel_mask = ADC_CHANNEL_MASK(pin.channel);
 
     // Enable the ADC channel in the ADC Control Register
     ADC->ADC_CHER = channel_mask;
@@ -121,7 +127,7 @@ unsigned int AnalogIn_Read(uint32_t channel) {
 
     // Wait until the result is here
     while (!(ADC->ADC_ISR & channel_mask));
-    uint16_t result = ADC_CDR_GET_RESULT(ADC->ADC_CDR[channel]);
+    uint16_t result = ADC_CDR_GET_RESULT(ADC->ADC_CDR[pin.channel]);
 
     // Disable the ADC channel in the ADC Control Register
     ADC->ADC_CHDR = channel_mask;

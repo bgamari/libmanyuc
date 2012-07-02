@@ -85,8 +85,6 @@ AnalogIn_t AnalogIn_Init(PinName pin_name) {
 }
 
 AnalogIn_t AnalogIn_Get(PinName pin_name) {
-    // Find out the id number of the pin.
-    // TODO: is there a better way of doing this?
     int id = 0;
     for (; id < ADC_AMOUNT; id++) {
         if (names[id] == pin_name) break;

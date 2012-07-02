@@ -14,12 +14,12 @@ CFLAGS += -Wall -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int
 CFLAGS += -Werror-implicit-function-declaration -Wmain -Wparentheses
 CFLAGS += -Wsequence-point -Wreturn-type -Wswitch -Wtrigraphs -Wunused
 CFLAGS += -Wuninitialized -Wunknown-pragmas -Wfloat-equal -Wundef
-CFLAGS += -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings
+CFLAGS += -Wpointer-arith -Wbad-function-cast -Wwrite-strings
 CFLAGS += -Wsign-compare -Waggregate-return
 CFLAGS += -Wmissing-prototypes -Wmissing-declarations
 CFLAGS += -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations
 CFLAGS += -Wpacked -Wnested-externs -Winline -Wlong-long
-# -Wredundant-decls -Wstrict-prototypes 
+# -Wredundant-decls -Wstrict-prototypes -Wshadow
 CFLAGS += -Wunreachable-code
 CFLAGS += -Wcast-align
 CFLAGS += -I./ -I$(ARCH_DIR) -I$(ARCH_COMMON_DIR) $(INCLUDES) -O$(OPTIMIZATION) $(DEBUG) 

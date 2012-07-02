@@ -67,7 +67,7 @@ int main(void) {
                Pin_On(enabler);
 
     // Get AnalogIns
-    uint32_t sensors[] = {
+    AnalogIn_t sensors[] = {
         AnalogIn_Get(SENS0),
         AnalogIn_Get(SENS1),
         AnalogIn_Get(SENS2),
@@ -82,7 +82,7 @@ int main(void) {
         } else {
             Pin_On(leds[2]);
         }
-        if (AnalogIn_Read(sensors[0]) > 0) {
+        if (AnalogIn_Read(sensors[0], ADC_NORMAL) > 0) {
             Pin_Off(leds[1]);
         } else {
             Pin_On(leds[1]);
