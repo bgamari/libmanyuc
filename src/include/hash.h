@@ -1,22 +1,29 @@
-/*
- * A closed hash implementation
- * Copyright (C) 2012 Margarita Manterola Rivero
+/*********************************************************************//**
+ * @defgroup Hash Hash table
+ * @{
+ * @brief    A closed hash implementation.
+ * @date     2012
+ * @author   Copyright (C) 2012 - Margarita Manterola Rivero
  *
+ * @par
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
+ * @par
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
+ * @par
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
- */
+ *
+ ************************************************************************/
 
 #ifndef _HASH_H
 #define _HASH_H
@@ -106,6 +113,7 @@ Hash_Key_t Hash_Iter_Get_Next(Hash_Iter_t *iter);
  */
 void Hash_Iter_Destroy(Hash_Iter_t *iter);
 
+//@}
 
 #endif // _HASH_H
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

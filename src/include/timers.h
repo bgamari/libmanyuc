@@ -1,4 +1,4 @@
-/**************************************************************************//**
+/*********************************************************************//**
  * @defgroup Timers Timer counters and other time operations
  * @{
  * @brief    libmanyuc Timer counters and other time operations
@@ -23,7 +23,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  *
- ******************************************************************************/
+ ************************************************************************/
 
 #ifndef __TIMERS_H
 #define __TIMERS_H

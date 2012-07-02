@@ -29,6 +29,17 @@
    serial port as well.
 */
 
+inline unsigned int show_adc_with_light(AnalogIn_t in, Pin_t light) {
+    unsigned int value = AnalogIn_Read(in, ADC_NORMAL);
+    // A small number means white
+    if (value < 2000) {
+        Pin_On(light);
+    } else {
+        Pin_Off(light);
+    }
+    return value;
+}
+
 int main(void) {
 
 #ifdef DEBUG
@@ -49,22 +60,8 @@ int main(void) {
     Pin_On(sensor2);
 
     while (1) {
-        uint32_t s1 = AnalogIn_Read(p, ADC_NORMAL);
-
-        // Turn light on
-        if (s1 < 2000) {
-            Pin_On(light1);
-        } else {
-            Pin_Off(light1);
-        }
-
-        uint32_t s2 = AnalogIn_Read(q, ADC_NORMAL);
-
-        if (s2 < 2000) {
-            Pin_On(light2);
-        } else {
-            Pin_Off(light2);
-        }
+        unsigned int s1 = show_adc_with_light(p, light1);
+        unsigned int s2 = show_adc_with_light(q, light2);
 
 #ifdef DEBUG
         // Send the value through the serial port
