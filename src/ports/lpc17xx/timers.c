@@ -125,7 +125,7 @@ void _timer_sch_store(timer_sch_t *timer_sch, Int_Func func,
 }
 
 // Create a scheduler
-Scheduler_t Scheduler_Init_us(Int_Func func, uint32_t time_delay,
+Scheduler_t Scheduler_Init_us(Int_Func func, unsigned int time_delay,
                               uint8_t repeat) {
 
     uint32_t timer_id = 0;
@@ -273,14 +273,14 @@ void SysTick_Handler(void) {
 }
 
 // Delays number of tick Systicks (happens every 1 ms)
-void Delay_ms(uint32_t ms) {
+void Delay_ms(unsigned int ms) {
     uint32_t curTicks;
     curTicks = msTicks;
     while ((msTicks - curTicks) < ms);
 }
 
 // Delays in microseconds using timer 3.
-void Delay_us(uint32_t us) {
+void Delay_us(unsigned int us) {
     uint32_t cur_us = _timers[3]->TC;
     while ((_timers[3]->TC - cur_us) < us);
 }

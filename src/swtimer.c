@@ -69,7 +69,8 @@ static inline uint32_t _find_best_slot(SWTimer_t *timer,
         }
         // Find the best that shares a common divisor
         if (time_delay % timer->slots[i].reload == 0) {
-            if ((best < 0) || (timer->slots[i].reload > timer->slots[best].reload)) {
+            if ((best < 0) || 
+                (timer->slots[i].reload > timer->slots[best].reload)) {
                 best = i;
             }
         }
