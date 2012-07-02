@@ -180,33 +180,6 @@ void EINT3_IRQHandler(void) {
 
     io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO0IntStat, 0);
     io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO2IntStat, _IO_PORT_SHIFT);
-
-    /*
-     * This code is commented out because the other alternative is better.
-     *
-    // If there are less than 16 interrupts registered,
-    // go through the list and check all of them
-    if (Hash_Len(io_interrupt_table) < 16) {
-        Hash_Iter_t *iter = Hash_Iter_Init(io_interrupt_table);
-        while (Hash_Iter_Has_Next(iter)) {
-            Hash_Key_t key = Hash_Iter_Get_Next(iter);
-            uint8_t port = (key & 0x20);
-            uint8_t pos  = (key & 0x1F);
-            if (port == 0) {
-                io_interrupt_call_handlers((uint32_t*) LPC_GPIOINT->IO0IntStat, pos, 0);
-            } else {
-                io_interrupt_call_handlers((uint32_t*) LPC_GPIOINT->IO2IntStat, pos, 32);
-            }
-        }
-        Hash_Iter_Destroy(iter);
-    }
-    // If there are more than 16 interrupts registered,
-    // go through the interrupt state vectors.
-    else {
-        io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO0IntStat, 0);
-        io_interrupt_read_all((uint32_t *) LPC_GPIOINT->IO2IntStat, 32);
-    }
-    */
 }
 
 // Initializes the interrupt table
@@ -250,6 +223,5 @@ void Pin_Int_Attach(struct _pin_t pin, void(*function)(void), IOIntMode mode) {
 
     Pin_Int_Enable(pin, mode);
 }
-
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

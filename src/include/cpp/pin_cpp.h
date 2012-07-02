@@ -24,7 +24,7 @@
 #include "io.h"
 #include <stdint.h>
 
-/** The pin class represents an extenal pin in the board,
+/** The pin class represents an external pin in the board,
  *  it can be used as input or output.
  *
  *  @author Margarita Manterola
