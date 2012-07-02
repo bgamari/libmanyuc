@@ -6,12 +6,16 @@ LIB_BASE ?= .
 # Include user configuration
 include $(LIB_BASE)/config.mk
 
-# Objects compiled for the general use of the library
-COMMON_OBJECTS = io.o hash.o swtimer.o
-CPP_OBJECTS = cpp/pin.o 
+# Port object must be defined here as empty
+# Then added in the modules and ports
+PORT_OBJECTS := 
 
-INCLUDES = -I $(LIB_BASE)/include
-INCLUDES_CPP = -I $(LIB_BASE)/include/cpp
+# Objects compiled for the general use of the library
+COMMON_OBJECTS := io.o hash.o swtimer.o
+CPP_OBJECTS := cpp/pin.o 
+
+INCLUDES := -I $(LIB_BASE)/include
+INCLUDES_CPP := -I $(LIB_BASE)/include/cpp
 
 # Select objects and project compiler according to the language
 ifeq ($(LANGUAGE), CPP)
@@ -29,8 +33,9 @@ COMMON_OBJECTS := $(addprefix $(LIB_BASE)/, $(COMMON_OBJECTS))
 ASSEMBLER_OBJECTS := $(OBJECTS:.o=.s)
 
 # Add modules
-MODULE_DIR := $(LIB_BASE)/modules/spi
-include $(MODULE_DIR)/Makefile
+MODULE_DIRS := $(LIB_BASE)/modules/spi $(LIB_BASE)/modules/accelerometer
+MODULE_FILES := $(foreach MODULE_DIR,$(MODULE_DIRS),$(MODULE_DIR)/Makefile)
+include $(MODULE_FILES)
 
 # Include the appropriate Makefile
 ARCH_DIR := $(LIB_BASE)/ports/$(ARCH)

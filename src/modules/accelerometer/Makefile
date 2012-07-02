@@ -22,7 +22,10 @@ COMMON_OBJECTS += $(addprefix $(MODULE_DIR)/, $(MODULE_OBJECTS))
 # Include the appropriate Makefile
 ifneq "$(ARCH)" "" 
     MODULE_ARCH_DIR := $(shell dirname $(MODULE_DIR)/ports/$(ARCH))
-    include $(MODULE_ARCH_DIR)/Makefile
+    MODULE_ARCH_FILE := $(strip $(wildcard MODULE_ARCH_DIR/Makefile))
+    ifneq ($(MODULE_ARCH_FILE),)
+        include $(MODULE_ARCH_DIR)/Makefile
+    endif
 endif
 
 
