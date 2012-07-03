@@ -82,10 +82,10 @@ public:
      *     the internal timeout is reached.
      *  @return the amount of bytes that could be actually written.
      */
-    uint32_t write(uint8_t *data, uint32_t length,
+    uint32_t write(char *data, uint32_t length,
                    SerialTransferMode mode = BLOCKING)
     {
-        return Serial_Put_Bytes(this->port, data, length, mode);
+        return Serial_Put_Bytes(this->port, mode, data, length);
     }
 
 };

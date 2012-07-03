@@ -54,7 +54,7 @@ public:
      */
     unsigned int read(AnalogInMode mode)
     {
-        return AnalogIn_Read(this->pin);
+        return AnalogIn_Read(this->pin, mode);
     }
 
     // Interrupt methods
