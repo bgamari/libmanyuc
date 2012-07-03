@@ -151,7 +151,7 @@ void PWMPin_Set_Duty_Cycle(PWMPin_t pin, float duty) {
     PWMPin_Set_Cycle_Count(pin, LPC_PWM1->MR0 * duty);
 }
 
-void inline PWMPin_Set_Cycle_Count(PWMPin_t pin, uint32_t count) {
+void inline PWMPin_Set_Cycle_Count(PWMPin_t pin, unsigned int count) {
     if (pin.id < 4) {
         LPC_PWM1->MRL[pin.id - 1] = count;
     } else {

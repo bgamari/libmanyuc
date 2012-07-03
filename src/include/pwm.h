@@ -87,7 +87,7 @@ extern "C" {
      *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get
      *  @param count The amount of cycles that the signal should be on.
      */
-    void PWMPin_Set_Cycle_Count(PWMPin_t pin, uint32_t count);
+    void PWMPin_Set_Cycle_Count(PWMPin_t pin, unsigned int count);
 
     /** Returns the currently set duty cycle.
      *  @param pin The pin affected. Should be created by Pin_Init or Pin_Get

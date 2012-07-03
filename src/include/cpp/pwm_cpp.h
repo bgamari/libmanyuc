@@ -1,5 +1,5 @@
 /*
- * libmanyuc - pin cpp header file
+ * libmanyuc - pwmpin cpp header file
  * Copyright (C) 2012 - Margarita Manterola Rivero
  *
  * This library is free software; you can redistribute it and/or
@@ -22,10 +22,11 @@
 #define PWM_CPP_H
 
 #include "io.h"
+#include "pwm.h"
 #include <stdint.h>
 
-/** The pin class represents an extenal pin in the board,
- *  it can be used as input or output.
+/** The PWMPin class represents a pin on the board,
+ *  that can be used to generate Pulse Width Modulation signals.
  *
  *  @author Margarita Manterola
  *  @date 2012
@@ -36,79 +37,71 @@ private:
     PWMPin_t pin;
 public:
     /** PWMPin Constructor.
+     *  Initializes the pin for Pulse Width Modulation and starts creating
+     *  a pulse, with the default duty cycle.
      *  @param pin_name the board name for the pin.
-     *  @param nmodes the amount of modes to set for this pin.
-     *  @param ... a list of modes that have to be set.
-     *         Output is the default mode.
-     *         Other modes depend on the microcontroller.
      */
-    PWMPin(PWMPinName pin_name, uint32_t nmodes = 0, ...);
-
-    /** Returns the current value set in the pin. 
-     *  @return 0 if the pin is off, 1 if it is on.
-     */
-    int read() {
-        return PWMPin_Read(this->pin);
+    PWMPin(PinName pin_name) {
+        this->pin = PWMPin_Init(pin_name);
     }
 
-    /** Writes a value for the pin. 
-     *  @param value 0 turns the pin off, any other value turns it on.
+    /** Sets the period of the PWM signal.
+     *  @param s The period of the signal, in seconds.
      */
-    void write(int value) {
-        (value) ? PWMPin_On(this->pin): PWMPin_Off(this->pin);
+    void set_period_s(float s) {
+        PWMPin_Set_Period_s(this->pin, s);
     }
 
-    /** Sets the operation mode for the pin. 
-     *  @param mode The mode to set for the pin.
-     *  Available modes depend on the architecture.
+    /** Sets the period of the PWM signal.
+     *  @param ms The period of the signal, in milliseconds.
      */
-    void mode(PWMPinMode mode) {
-        PWMPin_Mode(this->pin, mode);
+    void set_period_ms(float ms) {
+        PWMPin_Set_Period_ms(this->pin, ms);
     }
 
-    /** Toggles the value of the pin. */
-    void toggle() {
-        PWMPin_Toggle(this->pin);
+    /** Sets the period of the PWM signal.
+     *  @param us The period of the signal, in microseconds.
+     */
+    void set_period_us(float us) {
+        PWMPin_Set_Period_us(this->pin, us);
     }
 
-    // Interrupt methods
-
-    /** Binds a function to be called when an interrupt occurrs on the
-     *  pin. 
-     *  @param function A function to attach to the pin interrupt.
-     *  @param mode The mode for the pin interrupt (architecture
-     *  dependent).
+    /** Sets the duty cycle of the PWM signal.
+     *  @param duty The duty cycle to set. Values should be between 0 and 1.
+     *  0 means always off, 1 means always on.
      */
-    void attach(Int_Func function, IOIntMode mode) {
-        PWMPin_Int_Attach(this->pin, function, mode);
+    void set_duty_cycle(float duty) {
+        PWMPin_Set_Duty_Cycle(this->pin, duty);
     }
 
-    /** Disables a pin interrupt that had been previously
-     *  attached/enabled.
-     *  @param mode The mode for the pin interrupt that had been attached.
+    /** Sets the exact cycle count, the meaning of this value is
+     *  architecture dependant.
+     *  @param count The amount of cycles that the signal should be on.
      */
-    void disable(IOIntMode mode) {
-        PWMPin_Int_Disable(this->pin, mode);
+    void set_cycle_count(unsigned int count) {
+        PWMPin_Set_Cycle_Count(this->pin, count);
     }
-     
-    /** Enables a pin interrupt that had been previously disabled.
-     *  @param mode The mode for the pin interrupt that had been attached.
+
+    /** Returns the currently set duty cycle.
+     *  @return The currently set duty cycle for the pin.
      */
-    void enable(IOIntMode mode) {
-        PWMPin_Int_Enable(this->pin, mode);
+    float get_duty_cycle() {
+        return PWMPin_Get_Duty_Cycle(this->pin);
     }
 
     // Operator overloading
 
-    /** Shorthand for write, sets the value to the pin. */
-    PWMPin &operator= (int value) {
-        this->write(value);
+    /** Shorthand for set_duty_cycle, 
+     *  sets the duty cycle for the pin. */
+    PWMPin &operator= (float value) {
+        this->set_duty_cycle(value);
         return *this;
     }
 
-    /** Shorthand for read, returns the value of the pin. */
-    operator int() {
-        return this->read();
+    /** Shorthand for get_duty_cycle, returns the current 
+     *  duty cycle of the pin. */
+    operator float() {
+        return this->get_duty_cycle();
     }
 };
 
