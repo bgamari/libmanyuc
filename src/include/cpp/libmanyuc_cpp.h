@@ -25,7 +25,7 @@
 #include "i2c_cpp.h"
 #include "serial_cpp.h"
 #include "pwm_cpp.h"
-#include "analogin_cpp.h"
+#include "adc_cpp.h"
 #include "bus_cpp.h"
 
 #endif
