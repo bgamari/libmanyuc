@@ -8,10 +8,10 @@ and there are plenty of examples in the demo/ directory.
 You can build all the demos in the demo/ directory issuing "make" in that
 directory.
 
-In order to compile the library you'll have to choose the target
-architecture (currently only mbed supported, more to come soon), and set
-the PATH where the binaries for the compiler are located. This can be done
-in the config.mk file, or in the Makefile of the demo file.
+In order to compile the library you'll have to choose the target architecture
+(currently LPC 1700 (mbed and LPCXpresso) and ATSAM3S  supported, more to come
+soon), and set the PATH where the binaries for the compiler are located. This
+can be done in the config.mk file, or in the Makefile of the demo file.
 
 In order to build your own project, copy one of the demo directories and
 start from there.
