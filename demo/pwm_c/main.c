@@ -25,10 +25,10 @@
 int main(void) {
 
     PWMPin_t pwm_leds[4] = {
-        PWMPin_Get(LED1),
-        PWMPin_Get(LED2),
-        PWMPin_Get(LED3),
-        PWMPin_Get(LED4)
+        PWMPin_Init(LED1),
+        PWMPin_Init(LED2),
+        PWMPin_Init(LED3),
+        PWMPin_Init(LED4)
     };
 
     uint8_t nleds = 4;
