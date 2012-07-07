@@ -126,6 +126,21 @@ extern "C" {
                               char *data, uint32_t length);
 
 
+    /** Returns if there are pending bytes to read in the Serial 
+     *  port or not.
+     *  @param port An initialized serial port structure.
+     *  @return 0 if no bytes to read, 
+     *            different than 0 if there are bytes to read.
+     */
+    int Serial_Readable(Serial_t port);
+
+    /** Returns if there is space to send bytes in the Serial port or not.
+     *  @param port An initialized serial port structure.
+     *  @return 0 if no bytes to space to send, 
+     *            different than 0 if there is space to send.
+     */
+    int Serial_Sendable(Serial_t port);
+
 //@}
 
 #ifdef __cplusplus

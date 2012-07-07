@@ -88,6 +88,47 @@ public:
         return Serial_Put_Bytes(this->port, mode, data, length);
     }
 
+    /** Returns one byte received through the serial port. This
+     *  function does not wait for a new byte, it just returns the
+     *  current byte. 
+     *
+     *  @return The byte received through the serial port.
+     */
+    char getByte() {
+        return Serial_Get_Byte(this->port);
+    }
+
+    /** Transmits one byte through the Serial port.
+     *
+     *  @param data The byte to be sent through the serial port.
+     */
+    void putByte(char data) {
+        Serial_Put_Byte(this->port, data);
+    }
+
+
+    /** Returns if there are pending bytes to read in the Serial 
+     *  port or not.
+     *  @return 0 if no bytes to read, 
+     *            different than 0 if there are bytes to read.
+     */
+    int readable() {
+        return Serial_Readable(this->port);
+    }
+
+    /** Returns if there is space to send bytes in the Serial port or not.
+     *  @param port An initialized serial port structure.
+     *  @return 0 if no bytes to space to send, 
+     *            different than 0 if there is space to send.
+     */
+    int sendable() {
+        return Serial_Sendable(this->port);
+    }
+
+    FILE* file() {
+        return Serial_Get_File(this->port);
+    }
+
 };
 
 #endif
