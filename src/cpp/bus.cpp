@@ -20,10 +20,11 @@
 
 #include "bus_cpp.h"
 #include <stdarg.h>
+#include <stdlib.h>
 
 // Only the constructor is here, the rest are all inline functions.
 
-Bus::Bus(int nmodes, ...) {
+Bus::Bus(int npins, ...) {
 
     // Get the pinBus
     va_list pins;
@@ -34,10 +35,10 @@ Bus::Bus(int nmodes, ...) {
 
     // Get all the pins
     va_start(pins, npins);
-    this->bus.pins = malloc(sizeof(Pin_t) * npins);
+    this->bus.pins = (Pin_t*) malloc(sizeof(Pin_t) * npins);
     int i;
     for (i = 0; i < npins; i++) {
-        this->bus.pins[i] = Pin_Get(va_arg(pins, uint32_t));
+        this->bus.pins[i] = Pin_Get((PinName) va_arg(pins, uint32_t));
     }
     va_end(pins);
 

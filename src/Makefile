@@ -12,7 +12,7 @@ PORT_OBJECTS :=
 
 # Objects compiled for the general use of the library
 COMMON_OBJECTS := io.o hash.o swtimer.o
-CPP_OBJECTS := cpp/pin.o 
+CPP_OBJECTS := cpp/pin.o cpp/bus.o
 
 INCLUDES := -I $(LIB_BASE)/include
 INCLUDES_CPP := -I $(LIB_BASE)/include/cpp
