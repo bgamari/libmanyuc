@@ -16,8 +16,9 @@ const uint8_t REG_Y10H = 0x03;
 const uint8_t REG_Z10L = 0x04;
 const uint8_t REG_Z10H = 0x05;
 
+Pin led1(LED1);
+
 void Accelerometer::calibrate() {
-    Pin led1(LED2);
     int8_t Xdata, Ydata, Zdata;
     int32_t Xcal, Xcalp, Ycal, Ycalp, Zcal, Zcalp;
     uint8_t Xcal_L, Xcal_H, Ycal_L, Ycal_H, Zcal_L, Zcal_H;
@@ -84,7 +85,7 @@ uint8_t Accelerometer::check() {
 }
 
 Accelerometer::Accelerometer(uint8_t port): i2c(port) {
-    Pin led1(LED2);
+    //Pin led1(LED2);
     led1 = 1;
     this->i2c.frequency(100000); //freq de i2c 100KHz
     Delay(0.02); // El acelerometro tarda 20ms en arrancar
