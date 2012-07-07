@@ -66,10 +66,10 @@ int main(void) {
 #ifdef DEBUG
         // Send the value through the serial port
         snprintf(cadena, 10, "1: %d\r\n", s1);
-        Serial_Put_Bytes(port, cadena, 9, BLOCKING);
+        Serial_Put_Bytes(port, BLOCKING, cadena, 9);
         // Send the value through the serial port
         snprintf(cadena, 10, "2: %d\r\n", s2);
-        Serial_Put_Bytes(port, cadena, 9, BLOCKING);
+        Serial_Put_Bytes(port, BLOCKING, cadena, 9);
 #endif
     }
 }
