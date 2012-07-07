@@ -75,8 +75,12 @@ PinBus_t vPinBus_Get(int npins, va_list pins) {
 }
 
 void PinBus_Mode(PinBus_t bus, PinMode mode) {
-// TODO: lock for concurrency
-    if (mode == OpenDrain) {
+
+    if (mode == Output) {
+        PinBus_Output(bus);
+    } else if (mode == Input) {
+        PinBus_Input(bus);
+    } else if (mode == OpenDrain) {
         return _PinBus_Apply(bus, _set_open_drain);
     } else if (mode == NormalMode) {
         return _PinBus_Apply(bus, _set_normal_mode);
