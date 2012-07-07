@@ -125,8 +125,21 @@ public:
         return Serial_Sendable(this->port);
     }
 
+
+    /** Returns a file descriptor that represents the serial port.
+     *  This is useful for using fprintf or similar functions.
+     *  Successive calls to this function will return the same
+     *  file pointer.
+     *  @return An initialized file descriptor representing a serial port.
+     */
     FILE* file() {
         return Serial_Get_File(this->port);
+    }
+
+    /** Shorthand for file() */
+    operator FILE*()
+    {
+        return this->file();
     }
 
 };
