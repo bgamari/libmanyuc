@@ -64,10 +64,10 @@ extern "C" {
         // Internal equivalencies
         TX_0 = ARM_P0_2,
         RX_0 = ARM_P0_3,
-        TX_1 = ARM_P0_10,
-        RX_1 = ARM_P0_11,
-        TX_2 = ARM_P0_15,
-        RX_2 = ARM_P0_16,
+        TX_1 = ARM_P0_15,
+        RX_1 = ARM_P0_16,
+        TX_2 = ARM_P0_10,
+        RX_2 = ARM_P0_11,
         TX_3 = ARM_P0_0,
         RX_3 = ARM_P0_1,
 
@@ -107,30 +107,6 @@ extern "C" {
     } IOIntMode;
 
 // For serial ports
-    typedef enum SerialPortMode
-    {
-        S0_Mode = Alt1,
-        S1_Mode = Alt1,
-        S2_Mode = Alt1,
-        S3_Mode = Alt2
-    } SerialPortMode;
-
-    typedef enum UARTNumber
-    {
-        UART_0 = LPC_UART0_BASE,
-        UART_1 = LPC_UART1_BASE,
-        UART_2 = LPC_UART2_BASE,
-        UART_3 = LPC_UART3_BASE
-    } UARTNumber;
-
-    typedef enum SerialPowerBit
-    {
-        PCUART0 = 3,
-        PCUART1 = 4,
-        PCUART2 = 24,
-        PCUART3 = 25,
-    } SerialPowerBit;
-
     typedef enum SerialIRQType
     {
         RX_INT = 0,

@@ -24,11 +24,11 @@
 
 // Port tables
 
-const static int modes[] = { S0_Mode, S1_Mode, S2_Mode, S3_Mode };
-const static int power_bits[] = { PCUART0, PCUART1, PCUART2, PCUART3 };
+const static int modes[] = { Alt1, Alt1, Alt1, Alt2 };
+const static int power_bits[] = { 3, 4, 24, 25 };
 const static uint32_t txs[] = { TX_0, TX_1, TX_2, TX_3 };
 const static uint32_t rxs[] = { RX_0, RX_1, RX_2, RX_3 };
-const static int uarts[] = { UART_0, UART_1, UART_2, UART_3 };
+const static int uarts[] = { LPC_UART0_BASE, LPC_UART1_BASE, LPC_UART2_BASE, LPC_UART3_BASE };
 
 // Internal defines used for bit operations
 #define UART_BYTE_MASK          ((uint8_t) 0xFF)      // Mask bit for byte data
@@ -81,6 +81,8 @@ Serial_t Serial_Get(int number) {
     return port;
 }
 
+extern uint32_t PeripheralClock;
+
 Serial_t Serial_Init(int number, int baudrate) {
 
     Serial_t port = Serial_Get(number);
@@ -94,8 +96,7 @@ Serial_t Serial_Init(int number, int baudrate) {
     LPC_SC->PCONP |= power_bit_mask;
 
     // 3 - Set the baudrate
-    uint32_t SystemCoreClock = 100000000;
-    uint16_t rate = SystemCoreClock / (16 * 4 * baudrate);
+    uint16_t rate = PeripheralClock / (16 * baudrate);
 
     // Enable divisor latches and set the rate
     port.uart->LCR |= UART_LCR_DLAB_EN;
