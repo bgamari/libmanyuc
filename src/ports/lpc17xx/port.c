@@ -174,11 +174,21 @@ void init(void) {
     //LPC_SC->CLKOUTCFG = ...;
     //LPC_SC->FLASHCFG = ...;
 
+    // Update the SystemCoreClock value
+    SystemCoreClockUpdate();
+
+    // Store PeripheralClock value
+    PeripheralClock = SystemCoreClock / 4;
+
+    if (SysTick_Config(SystemCoreClock / 1000)) {   /* Setup SysTick Timer for 1 msec interrupts  */
+        while (1);              /* Capture error */
+    }
+
     // Initialize Global Variables
     uint32_t *data_begin  = (uint32_t *) &_start_data;
     uint32_t *data_end    = (uint32_t *) &_end_data;
     uint32_t *datai_begin = (uint32_t *) &_start_datai;
-    //uint32_t *datai_end   = (uint32_t *) &_end_datai;
+    uint32_t *datai_end   = (uint32_t *) &_end_datai;
     while (data_begin < data_end) {
         *data_begin = *datai_begin;
         data_begin++;
@@ -190,16 +200,6 @@ void init(void) {
     extern void (*__init_array_end []) (void) __attribute__((weak)); 
     int count = __init_array_end - __init_array_start, i; 
     for (i = 0; i < count; i++) __init_array_start[i]();
-
-    // Update the SystemCoreClock value
-    SystemCoreClockUpdate();
-
-    // Store PeripheralClock value
-    PeripheralClock = SystemCoreClock / 4;
-
-    if (SysTick_Config(SystemCoreClock / 1000)) {   /* Setup SysTick Timer for 1 msec interrupts  */
-        while (1);              /* Capture error */
-    }
 
 }
 
