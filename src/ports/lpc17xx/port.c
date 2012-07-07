@@ -178,12 +178,18 @@ void init(void) {
     uint32_t *data_begin  = (uint32_t *) &_start_data;
     uint32_t *data_end    = (uint32_t *) &_end_data;
     uint32_t *datai_begin = (uint32_t *) &_start_datai;
-    uint32_t *datai_end   = (uint32_t *) &_end_datai;
+    //uint32_t *datai_end   = (uint32_t *) &_end_datai;
     while (data_begin < data_end) {
         *data_begin = *datai_begin;
         data_begin++;
         datai_begin++;
     }
+
+    /* C++ static constructors */
+    extern void (*__init_array_start []) (void) __attribute__((weak)); 
+    extern void (*__init_array_end []) (void) __attribute__((weak)); 
+    int count = __init_array_end - __init_array_start, i; 
+    for (i = 0; i < count; i++) __init_array_start[i]();
 
     // Update the SystemCoreClock value
     SystemCoreClockUpdate();

@@ -9,6 +9,10 @@ MEMORY
 {
 	rom (rx)  : ORIGIN = 0x00000000, LENGTH = 512K
 	ram (rwx) : ORIGIN = 0x10000000, LENGTH =  32K
+
+	iram1 (rwx) : ORIGIN = 0x2007C000, LENGTH = 16K
+	iram2 (rwx) : ORIGIN = 0x20080000, LENGTH = 16K
+
 }
 
 /* Define the top our stack at the end of SRAM */
@@ -29,12 +33,47 @@ SECTIONS
 		/* Rest of the code (C) */
 		*(.text)
 		*(.text.*)
+		*(.gnu.linkonce.t.*)
 		*(.glue_7)
 		*(.glue_7t)
 		*(.vfp11_veneer)
 		*(.ARM.extab* .gnu.linkonce.armextab.*)
+		*(.gcc_except_table)
 		*(.rodata)
-		*(.rodata.*)
+		*(.rodata*)
+		*(.gnu.linkonce.r.*)
+
+        . = ALIGN(4);
+        __preinit_array_start = .;
+        KEEP (*(.preinit_array))
+        __preinit_array_end = .;
+
+        . = ALIGN(4);
+        __init_array_start = .;
+        KEEP (*(SORT(.init_array.*)))
+        KEEP (*(.init_array))
+        __init_array_end = .;
+
+        . = ALIGN(0x4);
+        KEEP (*crtbegin.o(.ctors))
+        KEEP (*(EXCLUDE_FILE (*crtend.o) .ctors))
+        KEEP (*(SORT(.ctors.*)))
+        KEEP (*crtend.o(.ctors))
+
+        . = ALIGN(4);
+        KEEP(*(.fini))
+
+        . = ALIGN(4);
+        __fini_array_start = .;
+        KEEP (*(.fini_array))
+        KEEP (*(SORT(.fini_array.*)))
+        __fini_array_end = .;
+
+        . = ALIGN(0x4);
+        KEEP (*crtbegin.o(.dtors))
+        KEEP (*(EXCLUDE_FILE (*crtend.o) .dtors))
+        KEEP (*(SORT(.dtors.*)))
+        KEEP (*crtend.o(.dtors))
 		. = ALIGN(8);
 		_end_text = .;
 		_start_datai = .;
@@ -43,9 +82,10 @@ SECTIONS
 	.data :
 	{
 		_start_data = .;
-		*(vtable)
+		*(vtable vtable.*)
 		*(.data)
 		*(.data.*)
+		*(.gnu.linkonce.d*)
 		. = ALIGN (8);
 		_end_data = .;
 	} >ram AT >rom
@@ -65,8 +105,11 @@ SECTIONS
 	.bss :
 	{
 		_start_bss = .;
-		*(.bss)
-		*(COMMON)
+
+        *(.bss .bss.*)
+        *(.gnu.linkonce.b*)
+        *(COMMON)
+
 	} >ram 
 
 	. = ALIGN(4);
