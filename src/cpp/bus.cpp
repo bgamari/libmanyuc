@@ -26,6 +26,8 @@
 
 Bus::Bus(int npins, ...) {
 
+    this->copy = false;
+
     // Get the pinBus
     va_list pins;
     va_start(pins, npins);
@@ -43,5 +45,21 @@ Bus::Bus(int npins, ...) {
     va_end(pins);
 
 }
+
+Bus& Bus::operator= (const Bus &source)
+{
+    // check for self-assignment by comparing the address of the
+    // implicit object and the parameter
+    if (this == &source)
+        return *this;
+ 
+    // do the copy
+    this->bus = source.bus;
+    this->copy = true;
+ 
+    // return the existing object
+    return *this;
+}
+
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

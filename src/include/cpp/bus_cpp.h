@@ -35,6 +35,7 @@ class Bus
 {
 private:
     Bus_t bus;
+    bool copy;
 public:
     /** Bus Constructor.  A Bus is a group of pins that
      *  can be quickly set all at the same time, or easily
@@ -49,7 +50,7 @@ public:
      */
     ~Bus()
     {
-        Bus_Destroy(this->bus);
+        if (! this->copy) Bus_Destroy(this->bus);
     }
 
     /** Sets the mode for the group of pins.
@@ -101,6 +102,16 @@ public:
     {
         return this->read();
     }
+
+
+    /** Copy constructor. Used when passing by value */
+    Bus(const Bus &source) {
+        this->copy = true;
+        this->bus = source.bus;
+    }
+
+    /** Used when assigning. */
+    Bus& operator= (const Bus &source);
 
 };
 
