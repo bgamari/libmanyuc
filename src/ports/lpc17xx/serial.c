@@ -52,7 +52,7 @@ const static int uarts[] = { LPC_UART0_BASE, LPC_UART1_BASE, LPC_UART2_BASE, LPC
 #define UART_LCR_WLEN7          ((uint8_t) 2)         // 7 bit character length 
 #define UART_LCR_WLEN8          ((uint8_t) 3)         // 8 bit character length 
 #define UART_LCR_STOPBIT_SEL    ((uint8_t)(1<<2))     // UART Two Stop Bits Select 
-#define UART_LCR_PARITY_EN      ((uint8_t)(1<<3))     // UART Parity Enable/
+#define UART_LCR_PARITY_EN      ((uint8_t)(1<<3))     // UART Parity Enable
 #define UART_LCR_PARITY_ODD     ((uint8_t)(0))        // UART Odd Parity Select 
 #define UART_LCR_PARITY_EVEN    ((uint8_t)(1<<4))     // UART Even Parity Select 
 #define UART_LCR_PARITY_F_1     ((uint8_t)(2<<4))     // UART force 1 stick parity 
@@ -106,22 +106,6 @@ Serial_t Serial_Init(int number, int baudrate) {
     // 4 - Empty FIFOs and Disable FIFO
     port.uart->FCR = UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS;
     port.uart->FCR = 0;
-    /*
-        // Read what was already on the buffers
-        uint8_t aux;
-        while (port.uart->LSR & UART_LSR_RDR) {
-            aux = port.uart->RBR;
-        }
-
-        // Enable transmission
-        port.uart->TER = UART_TER_TXEN;
-        // Transmit what was already on the buffer
-        while (!(port.uart->LSR & UART_LSR_THRE));
-        // Disable transmission
-        port.uart->TER = 0;
-
-        // Enable FIFO
-        port.uart->FCR = UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS;*/
 
     // 5 - Set the pin function
     Pin_Mode(port.tx, modes[port.number]);
@@ -132,13 +116,8 @@ Serial_t Serial_Init(int number, int baudrate) {
 
     // Reset LCR / ACR
     port.uart->LCR = 0;
-    /*  port.uart->ACR = 0;
-
-        // Read anything still on the buffers
-        aux = port.uart->LSR;*/
 
     // Set configuration for transmission (8N1)
-    /*port.uart->LCR = UART_LCR_WLEN8 | UART_LCR_BREAK_EN;*/
     port.uart->LCR = UART_LCR_WLEN8;
 
     port.uart->FCR = UART_FCR_FIFO_EN | UART_FCR_RX_RS | UART_FCR_TX_RS;
