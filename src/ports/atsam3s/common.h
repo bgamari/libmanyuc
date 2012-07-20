@@ -72,11 +72,11 @@ extern "C" {
 
     typedef enum PinMode
     {
-        Output = -1,
         PullUp = 0, Repeater = 1, PullNone = 2, PullDown = 3,
         OpenDrain = 4, NormalMode = 5,
         // Pin Functions, start at 8
         PA = 8, PB, PC, PD,
+        Output = 16, Input
     } PinMode;
 
     typedef enum IOIntMode
