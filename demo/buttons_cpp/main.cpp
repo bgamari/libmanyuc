@@ -31,8 +31,8 @@ int main() {
         Pin(LED3), Pin(LED4)
     };
 
-    Pin buttons[] = { Pin(SW1, PullUp), Pin(SW2, PullUp),
-                      Pin(SW3, PullUp), Pin(SW4, PullUp)
+    Pin buttons[] = { Pin(SW1, 2, Input, PullUp), Pin(SW2, 2, Input, PullUp),
+                      Pin(SW3, 2, Input, PullUp), Pin(SW4, 2, Input, PullUp)
                     };
 
     while (1) {
