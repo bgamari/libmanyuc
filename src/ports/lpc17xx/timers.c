@@ -290,7 +290,7 @@ void Delay_us(unsigned int us) {
         _fast_timer_init = 1;
     }
     uint32_t cur_us = _timers[FAST_TIMER]->TC;
-    while ((_timers[FAST_TIMER]->TC - cur_us) <= us);
+    while ((_timers[FAST_TIMER]->TC - cur_us) < us);
 }
 
 
