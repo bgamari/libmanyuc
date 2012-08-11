@@ -282,7 +282,7 @@ void Delay_ms(unsigned int ms) {
 // Delays in microseconds using timer 3.
 void Delay_us(unsigned int us) {
     uint32_t cur_us = _timers[3]->TC;
-    while ((_timers[3]->TC - cur_us) < us);
+    while ((_timers[3]->TC - cur_us) <= us);
 }
 
 
