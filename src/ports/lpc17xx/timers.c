@@ -40,6 +40,8 @@
 #define SW_TIMER_ID 1
 #define SW_TIMER_MR_AMOUNT 3
 
+#define FAST_TIMER 0
+
 // Scheduled function prototype
 typedef struct _timer_sch_t {
     Int_Func func;
@@ -54,6 +56,8 @@ static uint8_t _next_ts = 0;
 static timer_sch_t *_sch_timers[4] = { NULL, NULL, NULL, NULL };
 // Structure that stores the timers to schedule by software
 static SWTimer_t *_swtimer = NULL;
+// Fast timer used for small delays
+static uint8_t _fast_timer_init = 0;
 
 // Array to access the 4 hardware timers
 static LPC_TIM_TypeDef *_timers[4] = { LPC_TIM0, LPC_TIM1, LPC_TIM2, LPC_TIM3};
@@ -279,10 +283,14 @@ void Delay_ms(unsigned int ms) {
     while ((msTicks - curTicks) < ms);
 }
 
-// Delays in microseconds using timer 3.
+// Delays in microseconds using the fast timer
 void Delay_us(unsigned int us) {
-    uint32_t cur_us = _timers[3]->TC;
-    while ((_timers[3]->TC - cur_us) <= us);
+    if (! _fast_timer_init) {
+        _timer_init(FAST_TIMER);
+        _fast_timer_init = 1;
+    }
+    uint32_t cur_us = _timers[FAST_TIMER]->TC;
+    while ((_timers[FAST_TIMER]->TC - cur_us) <= us);
 }
 
 
