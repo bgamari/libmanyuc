@@ -24,27 +24,33 @@
 
 // Switch Pin On
 static inline void Pin_On(struct _pin_t pin) {
+    STM_GPIO[pin.port].BSRR = pin.mask;
 }
 
 // Switch Pin Off
 static inline void Pin_Off(struct _pin_t pin) {
+    STM_GPIO[pin.port].BSRR = pin.mask << 16;
 }
 
 // Toggle Pin State
 static inline void Pin_Toggle(struct _pin_t pin) {
+    STM_GPIO[pin.port].ODR ^= pin.mask;
 }
 
 // Read pin state
 static inline int Pin_Read(struct _pin_t pin) {
-    return 0;
+    return STM_GPIO[pin.port].IDR & pin.mask;
 }
 
 // Set pin as output
 static inline void Pin_Output(struct _pin_t pin) {
+    GPIOR[pin.port].MODER &= ~(3 << shift);
+    GPIOR[pin.port].MODER |= 1 << shift;
 }
 
 // Set pin as input
 static inline void Pin_Input(struct _pin_t pin) {
+    GPIOR[pin.port].MODER &= ~(3 << shift);
 }
 
 // Switch PinBus On
