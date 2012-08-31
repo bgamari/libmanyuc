@@ -1,5 +1,5 @@
 /*
- * libmanyuc - Template serial communication file
+ * libmanyuc - STM32 serial communication file
  * Copyright (C) 2012 - Margarita Manterola Rivero
  *
  * This library is free software; you can redistribute it and/or
@@ -21,43 +21,131 @@
 #include "serial.h"
 #include <stdlib.h>
 
+#define STM32_UART_SR_TXE    (1<<7)
+#define STM32_UART_SR_RXNE   (1<<5)
+#define STM32_UART_SR_IDLE   (1<<4)
+#define STM32_UART_SR_ORE    (1<<3)
+#define STM32_UART_SR_NF     (1<<2)
+#define STM32_UART_SR_FE     (1<<1)
+#define STM32_UART_SR_PE     (1<<0)
+
+#define STM32_UART_CR1_UE    (1<<13)
+#define STM32_UART_CR1_TE    (1<<3)
+#define STM32_UART_CR1_RE    (1<<2)
+
+const static STM32_USART_TypeDef *usart_regs[] = {
+  STM32_USART1,
+  STM32_USART2,
+  STM32_USART3,
+  STM32_USART4,
+  STM32_USART5,
+  STM32_USART6,
+};
+
+static uint8_t serial_initialized[] = { 0, 0, 0, 0 };
+
 // Convert the serial port number to a serial port struct.
 Serial_t Serial_Get(int number) {
-    Serial_t port;
+    if (number < 0 || number > 5) number = 0;
+    Serial_t port = {
+        uarts_regs[number],
+        number
+    };
     return port;
 }
 
+extern uint32_t PeripheralClock;
+
 // Create a serial port structure and initialize it
 Serial_t Serial_Init(int number, int baudrate) {
-
     Serial_t port = Serial_Get(number);
+    if (serial_initialized[number] != 0) {
+        return port;
+    }
+    serial_initialized[number] = 1;
+
+    // 1 - Start up clock to UART
+    if (number != 0) {
+        // USART1 apparently always has clock
+        STM32_RCC->APB1ENR |= 1 << (number+16);
+    }
+
+    // 2 - Set the baudrate
+    port.uart->BRR = (PeripheralClock << 4) / baudrate; // TODO: Check
+
+    // 3 - Enable UART
+    port.uart->CR1 |= STM32_UART_CR1_UE | STM32_UART_CR1_TE | STM32_UART_CR1_RE;
 
     return port;
+}
+
+// Returns if there is info available to be read
+inline int Serial_Readable(Serial_t port) {
+    return port.uart->SR & STM32_UART_SR_RXNE;
 }
 
 // Returns a byte read from the serial port. If there is no byte yet, it
 // blocks until there is.
 inline char Serial_Get_Byte(Serial_t port) {
-    return 0;
+    while (!Serial_Readable(port));
+    return port.regs.DR;
 }
 
-// Reads the amount of bytes from the serial port into the buffer.
+// Reads the number of bytes from the serial port into the buffer.
 // Memory for the buffer must have been allocated first.
 uint32_t Serial_Get_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length) {
-    return 0;
+    uint32_t i = 0, wait;
+
+    while (i < length) {
+
+        // If non blocking, check if there's something to read
+        // and if not, bail out.
+        if (!(Serial_Readable(port)) && (mode == NONBLOCKING)) {
+            break;
+        }
+        wait = UART_BLOCK_TIMEOUT;
+        while (!(Serial_Readable(port)) && (mode == BLOCKING || (wait > 0))) {
+            wait--;
+        }
+        if (!wait) break;
+
+        data[i] = Serial_Get_Byte(port);
+        i++;
+
+    }
+    return i;
+}
+
+// Returns if there is space to send a byte
+inline int Serial_Sendable(Serial_t port) {
+    return port.uart->SR & STM32_UART_SR_TXE;
 }
 
 // Sends a byte through the serial port. If there is no space, it blocks
 // until there is.
 inline void Serial_Put_Byte(Serial_t port, char data) {
-
+    while (!Serial_Sendable(port));
+    port.regs.DR = data;
 }
 
 // Send bytes in several different modes
 uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length)  {
-    return 0;
+    uint32_t i = 0;
+
+    while (i < length) {
+
+        // If non-blocking, check for space and leave when none.
+        if (!(Serial_Sendable(port)) && (mode == NONBLOCKING)) {
+            break;
+        }
+
+        Serial_Put_Byte(port, data[i]);
+    }
+
+    // Return the number of bytes that were sent
+    return i;
 }
 
 FILE *Serial_Get_File(Serial_t port) {
