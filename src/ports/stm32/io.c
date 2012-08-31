@@ -21,7 +21,7 @@
 #include "io.h"
 #include <stdarg.h>
 
-STM32_GPIO_TypeDef *gpio_regs[] = {
+const static STM32_GPIO_TypeDef *gpio_regs[] = {
     STM32_GPIOA,
     STM32_GPIOB,
     STM32_GPIOC,
