@@ -80,6 +80,7 @@ extern "C" {
         uint8_t port;
         uint8_t address;
         uint32_t mask;
+        STM32_GPIO_TypeDef *regs;
     };
 
 // Port structure for buses

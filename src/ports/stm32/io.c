@@ -21,12 +21,28 @@
 #include "io.h"
 #include <stdarg.h>
 
+STM32_GPIO_TypeDef *gpio_regs[] = {
+    STM32_GPIOA,
+    STM32_GPIOB,
+    STM32_GPIOC,
+    STM32_GPIOD,
+    STM32_GPIOE,
+    STM32_GPIOF,
+    STM32_GPIOG,
+    STM32_GPIOH,
+    STM32_GPIOI,
+};
+
 // Convert the pin name to a pin struct.
 Pin_t Pin_Get(PinName pin_name) {
     uint32_t address = pin_name;
-    Pin_t pin = { address / 16, address % 16, 1 << (address % 16) };
+    Pin_t pin = { address / 16,
+                  address % 16,
+                  1 << (address % 16),
+                  gpio_regs[address/16]
+    };
     // Enable clock to GPIO port
-    RCC->AHB1ENR |= 1 << pin.port; 
+    STM32_RCC->AHB1ENR |= 1 << pin.port; 
     return pin;
 }
 
@@ -36,31 +52,31 @@ void Pin_Mode(Pin_t pin, PinMode mode) {
     uint32_t shift4 = 4 * pin.address;
     
     if (mode == Output) {
-        GPIOR[pin.port].MODER &= ~(3 << shift);
-        GPIOR[pin.port].MODER |= 1 << shift;
+        pin.regs.MODER &= ~(3 << shift);
+        pin.regs.MODER |= 1 << shift;
     } else if (mode == Input) {
-        GPIOR[pin.port].MODER &= ~(3 << shift);
+        pin.regs.MODER &= ~(3 << shift);
     } else if (mode < 4) {
         // Set input type (PullUp, PullDown, PullNone)
-        GPIOR[pin.port].PUPDR &= ~(3 << shift);
-        GPIOR[pin.port].PUPDR |= mode << shift;
+        pin.regs.PUPDR &= ~(3 << shift);
+        pin.regs.PUPDR |= mode << shift;
     } else if (mode == OpenDrain) {
-        GPIOR[pin.port].OTYPER |= 1 << pin.address;
+        pin.regs.OTYPER |= 1 << pin.address;
     } else if (mode == NormalMode) {
-        GPIOR[pin.port].OTYPER |= 1 << pin.address;
+        pin.regs.OTYPER |= 1 << pin.address;
     } else if (mode == Analog) {
         GPIOR[pin.port].MODER |= 3 << shift;
     } else if (mode >= Alt0) {
         mode -= Alt0;
         if (pin.port < 8) {
-            GPIOR[pin.port].AFRL &= ~(0xf << shift4);
-            GPIOR[pin.port].AFRL |= (mode << shift4);
+            pin.regs.AFRL &= ~(0xf << shift4);
+            pin.regs.AFRL |= (mode << shift4);
         } else {
-            GPIOR[pin.port].AFRH &= ~(0xf << shift4);
-            GPIOR[pin.port].AFRH |= (mode << shift4);
+            pin.regs.AFRH &= ~(0xf << shift4);
+            pin.regs.AFRH |= (mode << shift4);
         }
-        GPIOR[pin.port].MODER &= ~(3 << shift);
-        GPIOR[pin.port].MODER |= 2 << shift;
+        pin.regs.MODER &= ~(3 << shift);
+        pin.regs.MODER |= 2 << shift;
     }
 }
 
