@@ -1,0 +1,3 @@
+This is support for STMicroelectronics' STM32 line of 32-bit
+MCUs. This support was written for the STM32F4, although can easily be
+expanded to encompass other models.
