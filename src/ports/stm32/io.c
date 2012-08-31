@@ -25,6 +25,8 @@
 Pin_t Pin_Get(PinName pin_name) {
     uint32_t address = pin_name;
     Pin_t pin = { address / 16, address % 16, 1 << (address % 16) };
+    // Enable clock to GPIO port
+    RCC->AHB1ENR |= 1 << pin.port; 
     return pin;
 }
 
