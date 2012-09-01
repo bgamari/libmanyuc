@@ -28,30 +28,36 @@ Scheduler_t Scheduler_Init_us(Int_Func func, unsigned int time_delay,
     return scheduler;
 }
 
-
 void TIMER0_IRQHandler() {
     // For counting - not used for timers
 }
 
 void TIMER1_IRQHandler() {
-    sw_timer_sch_handle_int(1);
 }
 
 void TIMER2_IRQHandler() {
-    hw_timer_sch_handle_int(2);
 }
 
 void TIMER3_IRQHandler() {
-    hw_timer_sch_handle_int(3);
 }
 
+// SysTick Handler
+volatile uint32_t msTicks;      /* counts 1ms timeTicks */
+void SysTick_Handler(void) {
+    msTicks++;
+}
 
 // Delay in miliseconds
 void Delay_ms(unsigned int ms) {
+    uint32_t curTicks;
+    curTicks = msTicks;
+    while ((msTicks - curTicks) < ms);
 }
 
 // Delays in microseconds.
 void Delay_us(unsigned int us) {
+    // TODO
 }
+
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

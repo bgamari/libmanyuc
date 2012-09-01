@@ -123,6 +123,8 @@ void init(void) {
         while (1);              /* Capture error */
     }
 
+    __enable_irq();
+
     // Initialize Global Variables
     uint32_t *data_begin  = (uint32_t *) &_start_data;
     uint32_t *data_end    = (uint32_t *) &_end_data;
