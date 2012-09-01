@@ -21,6 +21,8 @@
 #include "serial.h"
 #include <stdlib.h>
 
+#define UART_BLOCK_TIMEOUT      0xFFFFFFFF            // Timeout for blocking 
+
 #define STM32_UART_SR_TXE    (1<<7)
 #define STM32_UART_SR_RXNE   (1<<5)
 #define STM32_UART_SR_IDLE   (1<<4)
@@ -33,13 +35,13 @@
 #define STM32_UART_CR1_TE    (1<<3)
 #define STM32_UART_CR1_RE    (1<<2)
 
-const static STM32_USART_TypeDef *usart_regs[] = {
-  STM32_USART1,
-  STM32_USART2,
-  STM32_USART3,
-  STM32_USART4,
-  STM32_USART5,
-  STM32_USART6,
+const static USART_TypeDef *uart_regs[] = {
+    USART1,
+    USART2,
+    USART3,
+    UART4,
+    UART5,
+    USART6,
 };
 
 static uint8_t serial_initialized[] = { 0, 0, 0, 0 };
@@ -48,7 +50,7 @@ static uint8_t serial_initialized[] = { 0, 0, 0, 0 };
 Serial_t Serial_Get(int number) {
     if (number < 0 || number > 5) number = 0;
     Serial_t port = {
-        uarts_regs[number],
+        uart_regs[number],
         number
     };
     return port;
@@ -67,7 +69,7 @@ Serial_t Serial_Init(int number, int baudrate) {
     // 1 - Start up clock to UART
     if (number != 0) {
         // USART1 apparently always has clock
-        STM32_RCC->APB1ENR |= 1 << (number+16);
+        RCC->APB1ENR |= 1 << (number+16);
     }
 
     // 2 - Set the baudrate
@@ -88,7 +90,7 @@ inline int Serial_Readable(Serial_t port) {
 // blocks until there is.
 inline char Serial_Get_Byte(Serial_t port) {
     while (!Serial_Readable(port));
-    return port.regs.DR;
+    return port.uart->DR;
 }
 
 // Reads the number of bytes from the serial port into the buffer.
@@ -126,7 +128,7 @@ inline int Serial_Sendable(Serial_t port) {
 // until there is.
 inline void Serial_Put_Byte(Serial_t port, char data) {
     while (!Serial_Sendable(port));
-    port.regs.DR = data;
+    port.uart->DR = data;
 }
 
 // Send bytes in several different modes

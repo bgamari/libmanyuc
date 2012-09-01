@@ -29,6 +29,23 @@ Scheduler_t Scheduler_Init_us(Int_Func func, unsigned int time_delay,
 }
 
 
+void TIMER0_IRQHandler() {
+    // For counting - not used for timers
+}
+
+void TIMER1_IRQHandler() {
+    sw_timer_sch_handle_int(1);
+}
+
+void TIMER2_IRQHandler() {
+    hw_timer_sch_handle_int(2);
+}
+
+void TIMER3_IRQHandler() {
+    hw_timer_sch_handle_int(3);
+}
+
+
 // Delay in miliseconds
 void Delay_ms(unsigned int ms) {
 }

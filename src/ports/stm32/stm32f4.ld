@@ -14,6 +14,9 @@ MEMORY
 
 }
 
+/* Define the top our stack at the end of SRAM */
+_end_stack = 0x10008000;
+
 EXTERN (__interrupt_vector_table)
 
 SECTIONS

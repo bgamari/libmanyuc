@@ -34,17 +34,19 @@ uint8_t I2C_Read_Byte(I2C_t device, uint8_t address) {
 }
 
 // Read many bytes from the device
-uint8_t I2C_Read_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {
-    return 0
-       }
+unsigned int I2C_Read_Bytes(I2C_t device, uint8_t address,
+                            uint8_t *data, unsigned int length) {
+    return 0;
+}
 
 // Write one byte to the device
 uint8_t I2C_Write_Byte(I2C_t device, uint8_t address, uint8_t data) {
-    return 0
-       }
+    return 0;
+}
 
 // Write many bytes to the device
-uint8_t I2C_Write_Bytes(I2C_t device, uint8_t address, uint8_t *data, uint8_t length) {
+unsigned int I2C_Write_Bytes(I2C_t device, uint8_t address,
+                             uint8_t *data, unsigned int length) {
 }
 
 // Start communication

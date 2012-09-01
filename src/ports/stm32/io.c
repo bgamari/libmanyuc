@@ -21,16 +21,16 @@
 #include "io.h"
 #include <stdarg.h>
 
-const static STM32_GPIO_TypeDef *gpio_regs[] = {
-    STM32_GPIOA,
-    STM32_GPIOB,
-    STM32_GPIOC,
-    STM32_GPIOD,
-    STM32_GPIOE,
-    STM32_GPIOF,
-    STM32_GPIOG,
-    STM32_GPIOH,
-    STM32_GPIOI,
+const static GPIO_TypeDef *gpio_regs[] = {
+    GPIOA,
+    GPIOB,
+    GPIOC,
+    GPIOD,
+    GPIOE,
+    GPIOF,
+    GPIOG,
+    GPIOH,
+    GPIOI,
 };
 
 // Convert the pin name to a pin struct.
@@ -42,62 +42,50 @@ Pin_t Pin_Get(PinName pin_name) {
                   gpio_regs[address/16]
     };
     // Enable clock to GPIO port
-    STM32_RCC->AHB1ENR |= 1 << pin.port; 
+    RCC->AHB1ENR |= 1 << pin.port; 
     return pin;
 }
 
 // Set pin input/output mode
 void Pin_Mode(Pin_t pin, PinMode mode) {
     uint32_t shift = 2 * pin.address;
-    uint32_t shift4 = 4 * pin.address;
+    uint32_t shift4 = (4 * pin.address) % 32;
     
     if (mode == Output) {
-        pin.regs.MODER &= ~(3 << shift);
-        pin.regs.MODER |= 1 << shift;
+        Pin_Output(pin);
     } else if (mode == Input) {
-        pin.regs.MODER &= ~(3 << shift);
+        Pin_Input(pin);
     } else if (mode < 4) {
         // Set input type (PullUp, PullDown, PullNone)
-        pin.regs.PUPDR &= ~(3 << shift);
-        pin.regs.PUPDR |= mode << shift;
+        pin.regs->PUPDR &= ~(3 << shift);
+        pin.regs->PUPDR |= mode << shift;
     } else if (mode == OpenDrain) {
-        pin.regs.OTYPER |= 1 << pin.address;
+        pin.regs->OTYPER |= 1 << pin.address;
     } else if (mode == NormalMode) {
-        pin.regs.OTYPER |= 1 << pin.address;
+        pin.regs->OTYPER |= 1 << pin.address;
     } else if (mode == Analog) {
-        GPIOR[pin.port].MODER |= 3 << shift;
+        pin.regs->MODER |= 3 << shift;
     } else if (mode >= Alt0) {
         mode -= Alt0;
-        if (pin.port < 8) {
-            pin.regs.AFRL &= ~(0xf << shift4);
-            pin.regs.AFRL |= (mode << shift4);
-        } else {
-            pin.regs.AFRH &= ~(0xf << shift4);
-            pin.regs.AFRH |= (mode << shift4);
-        }
-        pin.regs.MODER &= ~(3 << shift);
-        pin.regs.MODER |= 2 << shift;
+        pin.regs->AFR[pin.address % 8] &= ~(0xf << shift4);
+        pin.regs->AFR[pin.address % 8] |= (mode << shift4);
+        pin.regs->MODER &= ~(3 << shift);
+        pin.regs->MODER |= 2 << shift;
     }
 }
 
 // Construct a pin bus
 PinBus_t vPinBus_Get(int npins, va_list pins) {
     int i;
-    PinBus_t bus = { { {0, {0, 0}}, {0, {0, 0}}, {0, {0, 0}}, } };
+    PinBus_t bus = { { {0}, {0}, {0}, } };
 
     for (i = 0; i < npins; i++) {
-        uint32_t address = va_arg(pins, uint32_t) - LPC_GPIO_BASE;
-        uint8_t number = address % 32;
-        // Add the pin to the 32 pin mask
-        bus.ports[address / 32].mask |= 1 << number;
-        // And the pin to the 16 pin mask with 2 bits per pin.
-        if (number < 16) {
-            bus.ports[address / 32].half_mask[0] |= 3 << (number * 2);
-        } else {
-            bus.ports[address / 32].half_mask[1] |= 3 << ((number - 16) * 2);
-        }
+        uint32_t address = va_arg(pins, uint32_t);
+        uint8_t number = address % 16;
+        // Add the pin to the 16 pin mask
+        bus.ports[address / 16].mask |= 1 << number;
     }
-    return bus;
+    return bus; // TODO: Check me
 }
 
 // Set PinBus input/output mode

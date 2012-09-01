@@ -1,7 +1,7 @@
 #!/usr/bin/make
 
 #  List of the objects files to be compiled/assembled
-PORT_OBJECTS = startup_STM32F4xx.o io.o serial.o syscalls.o adc.o pwm.o timers.o i2c.o
+PORT_OBJECTS = startup_STM32F4xx.o port.o io.o serial.o syscalls.o adc.o pwm.o timers.o i2c.o
 PORT_OBJECTS := $(addprefix $(ARCH_COMMON_DIR)/, $(PORT_OBJECTS))
 
 LSCRIPT=$(ARCH_COMMON_DIR)/stm32f4.ld
@@ -18,11 +18,11 @@ CPPFLAGS = $(CFLAGS)
 CPPFLAGS += -fno-rtti -fno-exceptions
 
 #  Compiler/Assembler/Linker Paths
-CC = 
-CXX =
-AS =
-LD =
-OBJCOPY = 
-SIZE = 
-REMOVE = 
+CC = arm-none-eabi-gcc
+CXX = arm-none-eabi-g++
+AS = arm-none-eabi-as
+LD = arm-none-eabi-ld
+OBJCOPY = arm-none-eabi-objcopy
+SIZE = arm-none-eabi-size
+REMOVE = rm -f
 

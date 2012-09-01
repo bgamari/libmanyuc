@@ -26,6 +26,9 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include "stm32f4xx.h"
+
 // Typedefs
     typedef enum InternalPinName {
         ARM_PA0, ARM_PA1, ARM_PA2, ARM_PA3, ARM_PA4, ARM_PA5, ARM_PA6, ARM_PA7, 
@@ -55,9 +58,9 @@ extern "C" {
         // OpenDrain vs. NormalMode
         OpenDrain = 4, NormalMode = 5,
         // Input/Output Modes
-        Output = 8, Input = 9,
+        Output = 8, Input = 9, Analog = 10,
         // Alternate Pin Functions
-        Alt0 = 16, Alt1, Alt2, Alt3, Alt4, Alt5, Alt6, Alt7
+        Alt0 = 16, Alt1, Alt2, Alt3, Alt4, Alt5, Alt6, Alt7,
         Alt8, Alt9, Alt10, Alt11, Alt12, Alt13, Alt14, Alt15
     } PinMode;
 
@@ -68,6 +71,7 @@ extern "C" {
 
     typedef enum AnalogInMode
     {
+        ADC_NORMAL,
     } AnalogInMode;
 
 // **********
@@ -80,23 +84,26 @@ extern "C" {
         uint8_t port;
         uint8_t address;
         uint32_t mask;
-        STM32_GPIO_TypeDef *regs;
+        GPIO_TypeDef *regs;
     };
 
 // Port structure for buses
     typedef struct Port_t
     {
+        uint32_t mask;
     } Port_t;
 
 // Bus structure
+#define MAX_PORTS 9
     struct _pinBus_t
     {
+        Port_t ports[MAX_PORTS];
     };
 
 // Serial port structure to hold all port info
     struct _serial_t
     {
-        STM_USART_TypeDef *uart;
+        USART_TypeDef *uart;
         uint32_t number;
     };
 
