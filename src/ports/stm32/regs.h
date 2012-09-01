@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <core_cm3.h>
+#include "core_cm3.h"
 
 typedef struct {
   __IO uint32_t CR;
