@@ -67,9 +67,24 @@ Serial_t Serial_Init(int number, int baudrate) {
     serial_initialized[number] = 1;
 
     // 1 - Start up clock to UART
-    if (number != 0) {
-        // USART1 apparently always has clock
-        RCC->APB1ENR |= 1 << (number+16);
+    switch (number) {
+    case 0:
+      RCC->APB2ENR |= 1 << 4;
+      break;
+    case 1:
+      RCC->APB1ENR |= 1 << 17;
+      break;
+    case 3:
+      RCC->APB1ENR |= 1 << 18;
+      break;
+    case 4:
+      RCC->APB1ENR |= 1 << 19;
+      break;
+    case 5:
+      RCC->APB1ENR |= 1 << 20;
+      break;
+    case 6:
+      RCC->APB2ENR |= 1 << 5;
     }
 
     // 2 - Set the baudrate
