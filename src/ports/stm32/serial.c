@@ -159,6 +159,7 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
         }
 
         Serial_Put_Byte(port, data[i]);
+        i++;
     }
 
     // Return the number of bytes that were sent
