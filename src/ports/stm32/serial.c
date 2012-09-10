@@ -88,7 +88,7 @@ Serial_t Serial_Init(int number, int baudrate) {
     }
 
     // 2 - Set the baudrate
-    port.uart->BRR = (PeripheralClock << 4) / baudrate; // TODO: Check
+    port.uart->BRR = PeripheralClock / 8 / baudrate;
 
     // 3 - Enable UART
     port.uart->CR1 |= STM32_UART_CR1_UE | STM32_UART_CR1_TE | STM32_UART_CR1_RE;
