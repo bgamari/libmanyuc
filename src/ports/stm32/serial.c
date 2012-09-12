@@ -1,6 +1,6 @@
 /*
  * libmanyuc - STM32 serial communication file
- * Copyright (C) 2012 - Margarita Manterola Rivero
+ * Copyright (C) 2012 - Ben Gamari
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,6 +19,7 @@
  */
 
 #include "serial.h"
+#include "dma.h"
 #include <stdlib.h>
 
 #define UART_BLOCK_TIMEOUT      0xFFFFFFFF            // Timeout for blocking 
@@ -44,12 +45,6 @@ const static USART_TypeDef *uart_regs[] = {
     USART6,
 };
 
-struct DMA_Channel_t {
-    uint8_t dma_n;
-    uint8_t stream_n;
-    uint8_t channel;
-};
-    
 struct {
     struct DMA_Channel_t rx, tx;
 } uart_dma_info[] = {
@@ -78,57 +73,6 @@ struct {
         .tx = { .dma_n=2, .stream_n=2, .channel=5 },
     },
 };
-
-static DMA_Stream_TypeDef *dma_streams[] = {
-    DMA1_Stream0,
-    DMA1_Stream1,
-    DMA1_Stream2,
-    DMA1_Stream3,
-    DMA1_Stream4,
-    DMA1_Stream5,
-    DMA1_Stream6,
-    DMA1_Stream7,
-
-    DMA2_Stream0,
-    DMA2_Stream1,
-    DMA2_Stream2,
-    DMA2_Stream3,
-    DMA2_Stream4,
-    DMA2_Stream5,
-    DMA2_Stream6,
-    DMA2_Stream7,
-};
-    
-DMA_Stream_TypeDef *get_dma_stream(uint8_t dma_n, uint8_t stream_n) {
-    return dma_streams[8*(dma_n-1) + stream_n];
-}
-
-DMA_TypeDef *get_dma(uint8_t dma_n) {
-    switch (dma_n) {
-    case 1: return DMA1;
-    case 2: return DMA2;
-    default: return NULL;
-    }
-}
-
-void dma_stream_clear_interrupts(uint8_t dma_n, uint8_t stream_n) {
-    DMA_TypeDef *dma = get_dma(dma_n);
-    __IO uint32_t *reg;
-
-    if (stream_n < 4) {
-        reg = &dma->LIFCR;
-    } else {
-        reg = &dma->HIFCR;
-        stream_n -= 4;
-    }
-
-    switch (stream_n) {
-    case 0: *reg = 0x3d << 0; break;
-    case 1: *reg = 0x3d << 6; break;
-    case 2: *reg = 0x3d << 16; break;
-    case 3: *reg = 0x3d << 22; break;
-    }
-}
 
 static uint8_t serial_initialized[] = { 0, 0, 0, 0 };
 
@@ -244,7 +188,7 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
     if (mode == NONBLOCKING && length <= 0xffff) {
         uint8_t dma_n = uart_dma_info[port.number].tx.dma_n;
         uint8_t stream_n = uart_dma_info[port.number].tx.stream_n;
-        DMA_Stream_TypeDef *stream = get_dma_stream(dma_n, stream_n);
+        DMA_Stream_TypeDef *stream = DMA_Get_Stream_Regs(dma_n, stream_n);
         uint16_t channel = uart_dma_info[port.number].tx.channel;
 
         // Disable stream
@@ -253,7 +197,7 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
 
         NVIC_EnableIRQ(DMA2_Stream2_IRQn);
         NVIC_EnableIRQ(DMA2_Stream7_IRQn);
-        dma_stream_clear_interrupts(dma_n, stream_n);
+        DMA_Clear_Stream_Interrupts(dma_n, stream_n);
 
         port.uart->CR3 |= USART_CR3_DMAT;
         stream->CR = 0;
@@ -292,10 +236,10 @@ FILE *Serial_Get_File(Serial_t port) {
 }
 
 void DMA2_Stream2_IRQHandler() {
-    dma_stream_clear_interrupts(2,2);
+    DMA_Clear_Stream_Interrupts(2,2);
 }
 void DMA2_Stream7_IRQHandler() {
-    dma_stream_clear_interrupts(2,7);
+    DMA_Clear_Stream_Interrupts(2,7);
 }
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
