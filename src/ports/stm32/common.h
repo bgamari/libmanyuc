@@ -1,5 +1,5 @@
 /*
- * libmanyuc - Template specifications file
+ * libmanyuc - STM32 specifications file
  * Copyright (C) 2012 - Margarita Manterola Rivero
  *
  * This library is free software; you can redistribute it and/or
@@ -18,8 +18,8 @@
  * MA 02110-1301 USA
  */
 
-#ifndef TEMPLATE_COMMON_H
-#define TEMPLATE_COMMON_H
+#ifndef STM32_COMMON_H
+#define STM32_COMMON_H
 
 /* Macros and declarations needed for this port */
 #ifdef __cplusplus
