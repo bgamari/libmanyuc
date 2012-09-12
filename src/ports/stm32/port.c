@@ -113,6 +113,9 @@ void init(void) {
     RCC->CR &= 0xfffbffff;
     RCC->CIR = 0x0;
 
+    // Enable things that don't fit elsewhere
+    RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN;
+
     // Update the SystemCoreClock value
     SystemCoreClockUpdate();
 
