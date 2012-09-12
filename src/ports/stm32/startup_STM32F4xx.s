@@ -36,13 +36,13 @@ __interrupt_vector_table:
 .long EXTI2_IRQHandler
 .long EXTI3_IRQHandler
 .long EXTI4_IRQHandler
-.long DMA1_STREAM0_IRQHandler
-.long DMA1_STREAM1_IRQHandler
-.long DMA1_STREAM2_IRQHandler
-.long DMA1_STREAM3_IRQHandler
-.long DMA1_STREAM4_IRQHandler
-.long DMA1_STREAM5_IRQHandler
-.long DMA1_STREAM6_IRQHandler
+.long DMA1_Stream0_IRQHandler
+.long DMA1_Stream1_IRQHandler
+.long DMA1_Stream2_IRQHandler
+.long DMA1_Stream3_IRQHandler
+.long DMA1_Stream4_IRQHandler
+.long DMA1_Stream5_IRQHandler
+.long DMA1_Stream6_IRQHandler
 .long ADC_IRQHandler
 .long CAN1_TX_IRQHandler
 .long CAN1_RX0_IRQHandler
@@ -188,33 +188,33 @@ EXTI3_IRQHandler:
     .type   EXTI4_IRQHandler, %function
 EXTI4_IRQHandler:
 
-    .weak   DMA1_STREAM0_IRQHandler
-    .type   DMA1_STREAM0_IRQHandler, %function
-DMA1_STREAM0_IRQHandler:
+    .weak   DMA1_Stream0_IRQHandler
+    .type   DMA1_Stream0_IRQHandler, %function
+DMA1_Stream0_IRQHandler:
 
-    .weak   DMA1_STREAM1_IRQHandler
-    .type   DMA1_STREAM1_IRQHandler, %function
-DMA1_STREAM1_IRQHandler:
+    .weak   DMA1_Stream1_IRQHandler
+    .type   DMA1_Stream1_IRQHandler, %function
+DMA1_Stream1_IRQHandler:
 
-    .weak   DMA1_STREAM2_IRQHandler
-    .type   DMA1_STREAM2_IRQHandler, %function
-DMA1_STREAM2_IRQHandler:
+    .weak   DMA1_Stream2_IRQHandler
+    .type   DMA1_Stream2_IRQHandler, %function
+DMA1_Stream2_IRQHandler:
 
-    .weak   DMA1_STREAM3_IRQHandler
-    .type   DMA1_STREAM3_IRQHandler, %function
-DMA1_STREAM3_IRQHandler:
+    .weak   DMA1_Stream3_IRQHandler
+    .type   DMA1_Stream3_IRQHandler, %function
+DMA1_Stream3_IRQHandler:
 
-    .weak   DMA1_STREAM4_IRQHandler
-    .type   DMA1_STREAM4_IRQHandler, %function
-DMA1_STREAM4_IRQHandler:
+    .weak   DMA1_Stream4_IRQHandler
+    .type   DMA1_Stream4_IRQHandler, %function
+DMA1_Stream4_IRQHandler:
 
-    .weak   DMA1_STREAM5_IRQHandler
-    .type   DMA1_STREAM5_IRQHandler, %function
-DMA1_STREAM5_IRQHandler:
+    .weak   DMA1_Stream5_IRQHandler
+    .type   DMA1_Stream5_IRQHandler, %function
+DMA1_Stream5_IRQHandler:
 
-    .weak   DMA1_STREAM6_IRQHandler
-    .type   DMA1_STREAM6_IRQHandler, %function
-DMA1_STREAM6_IRQHandler:
+    .weak   DMA1_Stream6_IRQHandler
+    .type   DMA1_Stream6_IRQHandler, %function
+DMA1_Stream6_IRQHandler:
 
     .weak   ADC_IRQHandler
     .type   ADC_IRQHandler, %function
