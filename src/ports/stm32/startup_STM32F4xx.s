@@ -50,7 +50,7 @@ __interrupt_vector_table:
 .long CAN1_SCE_IRQHandler
 .long EXTI9_5_IRQHandler
 .long TIM1_BRK_TIM9_IRQHandler
-.long TIM1_BRK_TIM10_IRQHandler
+.long TIM1_UP_TIM10_IRQHandler
 .long TIM1_TRG_COM_TIM11_IRQHandler
 .long TIM1_CC_IRQHandler
 .long TIM2_IRQHandler
@@ -66,9 +66,11 @@ __interrupt_vector_table:
 .long USART2_IRQHandler
 .long USART3_IRQHandler
 .long EXTI15_10_IRQHandler
+.long RTC_Alarm_IRQHandler
 .long OTG_FS_WKUP_IRQHandler
 .long TIM8_BRK_TIM12_IRQHandler
 .long TIM8_UP_TIM13_IRQHandler
+.long TIM8_TRG_COM_TIM14_IRQHandler
 .long TIM8_CC_IRQHandler
 .long DMA1_Stream7_IRQHandler
 .long FSMC_IRQHandler
@@ -244,6 +246,10 @@ EXTI9_5_IRQHandler:
     .type   TIM1_BRK_TIM9_IRQHandler, %function
 TIM1_BRK_TIM9_IRQHandler:
 
+    .weak   TIM1_UP_TIM10_IRQHandler
+    .type   TIM1_UP_TIM10_IRQHandler, %function
+TIM1_UP_TIM10_IRQHandler:
+
     .weak   TIM1_BRK_TIM10_IRQHandler
     .type   TIM1_BRK_TIM10_IRQHandler, %function
 TIM1_BRK_TIM10_IRQHandler:
@@ -308,6 +314,10 @@ USART3_IRQHandler:
     .type   EXTI15_10_IRQHandler, %function
 EXTI15_10_IRQHandler:
 
+    .weak   RTC_Alarm_IRQHandler
+    .type   RTC_Alarm_IRQHandler, %function
+RTC_Alarm_IRQHandler:
+
     .weak   OTG_FS_WKUP_IRQHandler
     .type   OTG_FS_WKUP_IRQHandler, %function
 OTG_FS_WKUP_IRQHandler:
@@ -320,6 +330,10 @@ TIM8_BRK_TIM12_IRQHandler:
     .type   TIM8_UP_TIM13_IRQHandler, %function
 TIM8_UP_TIM13_IRQHandler:
 
+    .weak   TIM8_TRG_COM_TIM14_IRQHandler
+    .type   TIM8_TRG_COM_TIM14_IRQHandler, %function
+TIM8_TRG_COM_TIM14_IRQHandler:
+        
     .weak   TIM8_CC_IRQHandler
     .type   TIM8_CC_IRQHandler, %function
 TIM8_CC_IRQHandler:
