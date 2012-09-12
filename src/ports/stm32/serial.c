@@ -44,6 +44,92 @@ const static USART_TypeDef *uart_regs[] = {
     USART6,
 };
 
+struct DMA_Channel_t {
+    uint8_t dma_n;
+    uint8_t stream_n;
+    uint8_t channel;
+};
+    
+struct {
+    struct DMA_Channel_t rx, tx;
+} uart_dma_info[] = {
+    { // USART1
+        .rx = { .dma_n=2, .stream_n=2, .channel=4 },
+        .tx = { .dma_n=2, .stream_n=7, .channel=4 },
+    },          
+    { // USART2 
+        .rx = { .dma_n=1, .stream_n=5, .channel=4 },
+        .tx = { .dma_n=1, .stream_n=6, .channel=4 },
+    },          
+    { // USART3 
+        .rx = { .dma_n=1, .stream_n=1, .channel=4 },
+        .tx = { .dma_n=1, .stream_n=3, .channel=4 },
+    },          
+    { // USART4 
+        .rx = { .dma_n=1, .stream_n=2, .channel=4 },
+        .tx = { .dma_n=1, .stream_n=4, .channel=4 },
+    },          
+    { // USART5 
+        .rx = { .dma_n=1, .stream_n=0, .channel=4 },
+        .tx = { .dma_n=1, .stream_n=6, .channel=4 },
+    },          
+    { // USART6 
+        .rx = { .dma_n=2, .stream_n=7, .channel=5 },
+        .tx = { .dma_n=2, .stream_n=2, .channel=5 },
+    },
+};
+
+static DMA_Stream_TypeDef *dma_streams[] = {
+    DMA1_Stream0,
+    DMA1_Stream1,
+    DMA1_Stream2,
+    DMA1_Stream3,
+    DMA1_Stream4,
+    DMA1_Stream5,
+    DMA1_Stream6,
+    DMA1_Stream7,
+
+    DMA2_Stream0,
+    DMA2_Stream1,
+    DMA2_Stream2,
+    DMA2_Stream3,
+    DMA2_Stream4,
+    DMA2_Stream5,
+    DMA2_Stream6,
+    DMA2_Stream7,
+};
+    
+DMA_Stream_TypeDef *get_dma_stream(uint8_t dma_n, uint8_t stream_n) {
+    return dma_streams[8*(dma_n-1) + stream_n];
+}
+
+DMA_TypeDef *get_dma(uint8_t dma_n) {
+    switch (dma_n) {
+    case 1: return DMA1;
+    case 2: return DMA2;
+    default: return NULL;
+    }
+}
+
+void dma_stream_clear_interrupts(uint8_t dma_n, uint8_t stream_n) {
+    DMA_TypeDef *dma = get_dma(dma_n);
+    __IO uint32_t *reg;
+
+    if (stream_n < 4) {
+        reg = &dma->LIFCR;
+    } else {
+        reg = &dma->HIFCR;
+        stream_n -= 4;
+    }
+
+    switch (stream_n) {
+    case 0: *reg = 0x3d << 0; break;
+    case 1: *reg = 0x3d << 6; break;
+    case 2: *reg = 0x3d << 16; break;
+    case 3: *reg = 0x3d << 22; break;
+    }
+}
+
 static uint8_t serial_initialized[] = { 0, 0, 0, 0 };
 
 // Convert the serial port number to a serial port struct.
@@ -51,7 +137,7 @@ Serial_t Serial_Get(int number) {
     if (number < 0 || number > 5) number = 0;
     Serial_t port = {
         uart_regs[number],
-        number
+        number,
     };
     return port;
 }
@@ -151,8 +237,43 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
                           char *data, uint32_t length)  {
     uint32_t i = 0;
 
-    while (i < length) {
+    // Wait until previous transfer is complete
+    //while (!(port.uart->SR & USART_SR_TC));
+    //port.uart->SR = 0;
 
+    if (mode == NONBLOCKING && length <= 0xffff) {
+        uint8_t dma_n = uart_dma_info[port.number].tx.dma_n;
+        uint8_t stream_n = uart_dma_info[port.number].tx.stream_n;
+        DMA_Stream_TypeDef *stream = get_dma_stream(dma_n, stream_n);
+        uint16_t channel = uart_dma_info[port.number].tx.channel;
+
+        // Disable stream
+        stream->CR &= ~DMA_SxCR_EN;
+        while (stream->CR & DMA_SxCR_EN);
+
+        NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+        NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+        dma_stream_clear_interrupts(dma_n, stream_n);
+
+        port.uart->CR3 |= USART_CR3_DMAT;
+        stream->CR = 0;
+        stream->CR |= channel << 25;
+        stream->CR |= 0x1 << 6; // Memory to Peripheral
+        stream->CR |= DMA_SxCR_MINC;
+        stream->CR |= DMA_SxCR_TCIE | DMA_SxCR_TEIE | DMA_SxCR_HTIE | DMA_SxCR_DMEIE;
+        stream->FCR |= DMA_SxFCR_FEIE;
+        stream->PAR = (uint32_t) &port.uart->DR;
+        stream->M0AR = (uint32_t) data;
+        stream->NDTR = length;
+        port.uart->SR = 0;
+        stream->CR |= DMA_SxCR_EN;
+        return length;
+    }
+
+    // Disable DMA
+    port.uart->CR3 &= ~USART_CR3_DMAT;
+
+    while (i < length) {
         // If non-blocking, check for space and leave when none.
         if (!(Serial_Sendable(port)) && (mode == NONBLOCKING)) {
             break;
@@ -168,6 +289,13 @@ uint32_t Serial_Put_Bytes(Serial_t port, SerialTransferMode mode,
 
 FILE *Serial_Get_File(Serial_t port) {
     return NULL;
+}
+
+void DMA2_Stream2_IRQHandler() {
+    dma_stream_clear_interrupts(2,2);
+}
+void DMA2_Stream7_IRQHandler() {
+    dma_stream_clear_interrupts(2,7);
 }
 
 // vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
