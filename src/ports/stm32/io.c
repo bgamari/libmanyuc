@@ -67,8 +67,8 @@ void Pin_Mode(Pin_t pin, PinMode mode) {
         pin.regs->MODER |= 3 << shift;
     } else if (mode >= Alt0) {
         mode -= Alt0;
-        pin.regs->AFR[pin.address % 8] &= ~(0xf << shift4);
-        pin.regs->AFR[pin.address % 8] |= (mode << shift4);
+        pin.regs->AFR[pin.address / 8] &= ~(0xf << shift4);
+        pin.regs->AFR[pin.address / 8] |= (mode << shift4);
         pin.regs->MODER &= ~(3 << shift);
         pin.regs->MODER |= 2 << shift;
     }
