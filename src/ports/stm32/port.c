@@ -50,7 +50,8 @@ static const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6,
  *----------------------------------------------------------------------------*/
 
 uint32_t SystemCoreClock; /* System Clock Frequency (Core Clock)*/
-uint32_t PeripheralClock; /* Peripheral Clock value */
+uint32_t PeripheralClock; /* APB2 Peripheral Clock value */
+uint32_t SlowPeripheralClock; /* APB1 Peripheral Clock value */
 
 void SystemCoreClockUpdate(void) {           /* Get Core Clock Frequency      */
     uint32_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
@@ -183,6 +184,11 @@ void init(void) {
     PeripheralClock = SystemCoreClock;
     if (RCC->CFGR & (1 << 15)) {
         PeripheralClock >>= ((RCC->CFGR >> 13) & 0x3) + 2;
+    }
+
+    SlowPeripheralClock = SystemCoreClock;
+    if (RCC->CFGR & (1 << 12)) {
+        SlowPeripheralClock >>= ((RCC->CFGR >> 10) & 0x3) + 2;
     }
 
     if (SysTick_Config(SystemCoreClock / 1000)) {   /* Setup SysTick Timer for 1 msec interrupts  */
