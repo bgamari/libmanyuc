@@ -169,6 +169,14 @@ void init(void) {
     RCC->CR &= 0xfffbffff;
     RCC->CIR = 0x0;
 
+    // Setup power control
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    PWR->CR |= PWR_CR_VOS;
+    while (!(PWR->CSR & PWR_CSR_VOSRDY));
+
+    // Setup FLASH wait states
+    FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY) | FLASH_ACR_LATENCY_2WS;
+
     RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_HPRE) | ((0x0) << 4); // Divide AHB by 1
     for (unsigned int i=0; i<20; i++);
     //RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | ((0x4) << 10); // Divide APB1 by 2
