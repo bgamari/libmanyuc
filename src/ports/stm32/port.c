@@ -121,8 +121,8 @@ void init(void) {
 
     // Store PeripheralClock value
     PeripheralClock = SystemCoreClock;
-    if ((RCC->CFGR >> 7) & 0x1) {
-        PeripheralClock >>= (RCC->CFGR >> 4) & 0x3;
+    if (RCC->CFGR & (1 << 15)) {
+        PeripheralClock >>= ((RCC->CFGR >> 13) & 0x3) + 2;
     }
 
     if (SysTick_Config(SystemCoreClock / 1000)) {   /* Setup SysTick Timer for 1 msec interrupts  */
