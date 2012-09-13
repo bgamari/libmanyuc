@@ -104,6 +104,61 @@ extern unsigned int _end_data;
 extern unsigned int _start_datai;
 extern unsigned int _end_datai;
 
+enum pll_source_t {
+    PLLSRC_HSI=0, PLLSRC_HSE=1
+};
+  
+int configure_pll(uint8_t Q, enum pll_source_t PLLSRC, uint8_t P, uint16_t N, uint8_t M)
+{
+    uint32_t tmp;
+    if (Q > ((1<<4)-1)) return -1;
+    if (P > ((1<<2)-1)) return -1;
+    if (N > ((1<<9)-1)) return -1;
+    if (M > ((1<<6)-1)) return -1;
+
+    tmp = 0x20000000;
+    tmp |= Q << 24;
+    tmp |= PLLSRC << 22;
+    tmp |= P << 16;  // P: 0=/2, 1=/4, 2=/6, 4=/8
+    tmp |= N << 6;
+    tmp |= M << 0;
+    RCC->PLLCFGR = tmp;
+
+    RCC->CR |= RCC_CR_PLLON;
+    while (!(RCC->CR & RCC_CR_PLLRDY));
+    return 0;
+}
+
+enum clock_source_t {
+    CLKSRC_HSI=0, CLKSRC_HSE=1, CLKSRC_PLL=2
+};
+
+void switch_clock_source(enum clock_source_t clksrc)
+{
+    enum clock_source_t old_clksrc = RCC->CFGR & 0x3;
+
+    switch (clksrc) {
+    case CLKSRC_HSI:
+        RCC->CR |= RCC_CR_HSION;
+        while (!(RCC->CR & RCC_CR_HSIRDY));
+        break;
+
+    case CLKSRC_HSE:
+        RCC->CR |= RCC_CR_HSEON;
+        while (!(RCC->CR & RCC_CR_HSERDY));
+        break;
+
+    case CLKSRC_PLL:
+        RCC->CR |= RCC_CR_PLLON;
+        while (!(RCC->CR & RCC_CR_PLLRDY));
+        break;
+    default:
+        return;
+    }
+
+    RCC->CFGR = (RCC->CFGR & ~0x3) | clksrc;
+}
+  
 void init(void) {
     // Reset clock configuration
     RCC->CR |= 0x1;
