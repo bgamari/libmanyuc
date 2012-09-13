@@ -6,6 +6,9 @@ LIB_BASE ?= .
 # Include user configuration
 include $(LIB_BASE)/config.mk
 
+# Libraries required by the project (e.g. -lm)
+PROJECT_LIBS ?= 
+
 # Port object must be defined here as empty
 # Then added in the modules and ports
 PORT_OBJECTS := 
@@ -54,7 +57,7 @@ $(PROJECT).hex: $(PROJECT).elf
 	$(OBJCOPY) -R .stack -O ihex $(PROJECT).elf $(PROJECT).hex
 
 $(PROJECT).elf: $(PORT_OBJECTS) $(COMMON_OBJECTS) $(OBJECTS)
-	$(PCC) $(LDFLAGS) $(OBJECTS) $(PORT_OBJECTS) $(COMMON_OBJECTS) -o $(PROJECT).elf
+	$(PCC) $(LDFLAGS) $(OBJECTS) $(PORT_OBJECTS) $(COMMON_OBJECTS) $(PROJECT_LIBS) -o $(PROJECT).elf
 
 stats: $(PROJECT).elf
 	$(SIZE) $(PROJECT).elf
