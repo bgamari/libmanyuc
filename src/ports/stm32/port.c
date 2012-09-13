@@ -185,12 +185,12 @@ void init(void) {
     // Store PeripheralClock value
     PeripheralClock = SystemCoreClock;
     if (RCC->CFGR & (1 << 15)) {
-        PeripheralClock >>= ((RCC->CFGR >> 13) & 0x3) + 2;
+        PeripheralClock >>= ((RCC->CFGR >> 13) & 0x3) + 1;
     }
 
     SlowPeripheralClock = SystemCoreClock;
     if (RCC->CFGR & (1 << 12)) {
-        SlowPeripheralClock >>= ((RCC->CFGR >> 10) & 0x3) + 2;
+        SlowPeripheralClock >>= ((RCC->CFGR >> 10) & 0x3) + 1;
     }
 
     if (SysTick_Config(SystemCoreClock / 1000)) {   /* Setup SysTick Timer for 1 msec interrupts  */
