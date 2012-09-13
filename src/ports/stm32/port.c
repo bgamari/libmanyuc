@@ -60,15 +60,15 @@ void SystemCoreClockUpdate(void) {           /* Get Core Clock Frequency      */
     switch (tmp)
     {
     case 0x00: // HSI in use
-        SystemCoreClock = HSI_VALUE;
+        SystemCoreClock = HSI_CLK;
         break;
 
     case 0x04: // HSE in use
-        SystemCoreClock = HSE_VALUE;
+        SystemCoreClock = HSE_CLK;
         break;
 
     case 0x08: // PLL in use
-        /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N
+        /* PLL_VCO = (HSE_CLK or HSI_CLK / PLL_M) * PLL_N
            SYSCLK = PLL_VCO / PLL_P
         */    
         pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
@@ -77,12 +77,12 @@ void SystemCoreClockUpdate(void) {           /* Get Core Clock Frequency      */
         if (pllsource != 0)
             {
                 /* HSE used as PLL clock source */
-                pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+                pllvco = (HSE_CLK / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
             }
         else
             {
                 /* HSI used as PLL clock source */
-                pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
+                pllvco = (HSI_CLK / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
             }
 
         pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
@@ -90,7 +90,7 @@ void SystemCoreClockUpdate(void) {           /* Get Core Clock Frequency      */
         break;
 
     default:
-        SystemCoreClock = HSI_VALUE;
+        SystemCoreClock = HSI_CLK;
         break;
     }
 
