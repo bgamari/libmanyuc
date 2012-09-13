@@ -168,6 +168,11 @@ void init(void) {
     RCC->CR &= 0xfffbffff;
     RCC->CIR = 0x0;
 
+    //RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_HPRE) | ((0x8) << 4); // Divide AHB by 2
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | ((0x4) << 10); // Divide APB1 by 2
+    configure_pll(4, PLLSRC_HSI, 0, 4*16, 16);
+    switch_clock_source(CLKSRC_PLL);
+
     // Enable things that don't fit elsewhere
     RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN;
 
