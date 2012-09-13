@@ -31,7 +31,7 @@
 #define PCONP_Val             0x042887DE
 #define CLKOUTCFG_Val         0x00000000
 
-#define HSE_CLK     (16000000UL)        /* External oscillator frequency      */
+#define HSE_CLK     ( 8000000UL)        /* External oscillator frequency      */
 #define HSI_CLK     (HSI_VALUE )        /* Main oscillator frequency          */
 #define RTC_CLK     (   32768UL)        /* RTC oscillator frequency           */
 #define IRC_OSC     ( 4000000UL)        /* Internal RC oscillator frequency   */
@@ -177,11 +177,17 @@ void init(void) {
     // Setup FLASH wait states
     FLASH->ACR = (FLASH->ACR & ~FLASH_ACR_LATENCY) | FLASH_ACR_LATENCY_2WS;
 
+    // Setup dividers
     RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_HPRE) | ((0x0) << 4); // Divide AHB by 1
     for (unsigned int i=0; i<20; i++);
-    //RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | ((0x4) << 10); // Divide APB1 by 2
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE2) | ((0x0) << 13); // Divide APB2 by 1
     for (unsigned int i=0; i<20; i++);
-    configure_pll(2, PLLSRC_HSI, 0, 4*16, 16);
+    RCC->CFGR = (RCC->CFGR & ~RCC_CFGR_PPRE1) | ((0x4) << 10); // Divide APB1 by 2
+
+    // Start HSE
+    RCC->CR |= RCC_CR_HSEON;
+    while (!(RCC->CR & RCC_CR_HSERDY));
+    configure_pll(2, PLLSRC_HSE, 0, 82*2, 8);
     switch_clock_source(CLKSRC_PLL);
 
     // Enable things that don't fit elsewhere
