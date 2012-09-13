@@ -62,11 +62,11 @@ void SystemCoreClockUpdate(void) {           /* Get Core Clock Frequency      */
         SystemCoreClock = HSI_VALUE;
         break;
 
-    case 0x04:
+    case 0x04: // HSE in use
         SystemCoreClock = HSE_VALUE;
         break;
 
-    case 0x08:
+    case 0x08: // PLL in use
         /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N
            SYSCLK = PLL_VCO / PLL_P
         */    
