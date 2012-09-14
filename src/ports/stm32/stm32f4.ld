@@ -127,6 +127,11 @@ SECTIONS
 	{
 		*(.eh_*)
 	}
+
+        .dma_data :
+        {
+                *(.dma_data)
+        } >iram1
 }
 
 _end = .;
