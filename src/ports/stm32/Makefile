@@ -2,10 +2,16 @@
 
 STM_CHIP = stm32f4xx
 
+MCPU =
 ifeq ($(STM_CHIP),stm32f4xx)
 	MCPU = cortex-m4
-else
+endif
+ifeq ($(STM_CHIP),stm32l151_md)
 	MCPU = cortex-m3
+endif
+ifeq ($(MCPU),)
+	$(error Unsupported STM_CHIP "$(STM_CHIP)")
+	$(echo Supported chips: stm32f4xx stm32l151_md)
 endif
 
 #  List of the objects files to be compiled/assembled
