@@ -11,9 +11,9 @@ DEBUG ?= -g
 OPTIMIZATION ?= 0
 
 #  Compiler Options - Add whatever's needed
-CFLAGS := $(CFLAGS) -fno-common -mcpu=cortex-m3 -mthumb -I./ -I$(ARCH_DIR) -I$(ARCH_COMMON_DIR) $(INCLUDES) -O$(OPTIMIZATION) $(DEBUG) 
-LDFLAGS := $(LDFLAGS) -mcpu=cortex-m3 -mthumb -O$(OPTIMIZATION) -nostartfiles -Wl,-Map=$(PROJECT).map -T$(LSCRIPT) 
-ASFLAGS = $(LISTING) -mcpu=cortex-m3
+CFLAGS := $(CFLAGS) -fno-common -mcpu=cortex-m4 -mthumb -I./ -I$(ARCH_DIR) -I$(ARCH_COMMON_DIR) $(INCLUDES) -O$(OPTIMIZATION) $(DEBUG) 
+LDFLAGS := $(LDFLAGS) -mcpu=cortex-m4 -mthumb -O$(OPTIMIZATION) -nostartfiles -Wl,-Map=$(PROJECT).map -T$(LSCRIPT)
+ASFLAGS = $(LISTING) -mcpu=cortex-m4
 
 CPPFLAGS = $(CFLAGS)
 CPPFLAGS += -fno-rtti -fno-exceptions
