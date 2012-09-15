@@ -1,11 +1,13 @@
 #!/usr/bin/make
 
+STM_CHIP = stm32f4xx
+
 #  List of the objects files to be compiled/assembled
-PORT_OBJECTS = startup_STM32F4xx.o port.o io.o serial.o syscalls.o \
+PORT_OBJECTS = startup_$(STM_CHIP).o port.o io.o serial.o syscalls.o \
 	       adc.o pwm.o timers.o i2c.o dma.o
 PORT_OBJECTS := $(addprefix $(ARCH_COMMON_DIR)/, $(PORT_OBJECTS))
 
-LSCRIPT=$(ARCH_COMMON_DIR)/stm32f4.ld
+LSCRIPT=$(ARCH_COMMON_DIR)/$(STM_CHIP).ld
 
 DEBUG ?= -g
 OPTIMIZATION ?= 0
