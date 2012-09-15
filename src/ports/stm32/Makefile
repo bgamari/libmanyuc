@@ -9,7 +9,7 @@ else
 endif
 
 #  List of the objects files to be compiled/assembled
-PORT_OBJECTS = startup_$(STM_CHIP).o port.o io.o serial.o syscalls.o \
+PORT_OBJECTS = startup_$(STM_CHIP).o init-$(STM_CHIP).o io.o serial.o syscalls.o \
 	       adc.o pwm.o timers.o i2c.o dma.o
 PORT_OBJECTS := $(addprefix $(ARCH_COMMON_DIR)/, $(PORT_OBJECTS))
 
