@@ -1,4 +1,4 @@
-/* Adapted for CortexM3 STM32F4xx, originally based on LPC17xx.ld */
+/* Adapted for Cortex M4 STM32F4xx, originally based on LPC17xx.ld */
 
 OUTPUT_FORMAT("elf32-littlearm")
 OUTPUT_ARCH(arm)
