@@ -2,6 +2,12 @@
 
 STM_CHIP = stm32f4xx
 
+ifeq ($(STM_CHIP),stm32f4xx)
+	MCPU = cortex-m4
+else
+	MCPU = cortex-m3
+endif
+
 #  List of the objects files to be compiled/assembled
 PORT_OBJECTS = startup_$(STM_CHIP).o port.o io.o serial.o syscalls.o \
 	       adc.o pwm.o timers.o i2c.o dma.o
@@ -13,9 +19,9 @@ DEBUG ?= -g
 OPTIMIZATION ?= 0
 
 #  Compiler Options - Add whatever's needed
-CFLAGS := $(CFLAGS) -fno-common -mcpu=cortex-m4 -mthumb -I./ -I$(ARCH_DIR) -I$(ARCH_COMMON_DIR) $(INCLUDES) -O$(OPTIMIZATION) $(DEBUG) 
-LDFLAGS := $(LDFLAGS) -mcpu=cortex-m4 -mthumb -O$(OPTIMIZATION) -nostartfiles -Wl,-Map=$(PROJECT).map -T$(LSCRIPT)
-ASFLAGS = $(LISTING) -mcpu=cortex-m4
+CFLAGS := $(CFLAGS) -fno-common -mcpu=$(MCPU) -mthumb -I./ -I$(ARCH_DIR) -I$(ARCH_COMMON_DIR) $(INCLUDES) -O$(OPTIMIZATION) $(DEBUG) 
+LDFLAGS := $(LDFLAGS) -mcpu=$(MCPU) -mthumb -O$(OPTIMIZATION) -nostartfiles -Wl,-Map=$(PROJECT).map -T$(LSCRIPT)
+ASFLAGS = $(LISTING) -mcpu=$(MCPU)
 
 CPPFLAGS = $(CFLAGS)
 CPPFLAGS += -fno-rtti -fno-exceptions
