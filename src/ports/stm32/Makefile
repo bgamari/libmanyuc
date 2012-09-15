@@ -1,25 +1,30 @@
 #!/usr/bin/make
 
-STM_CHIP = stm32f4xx
-
 MCPU =
+LSCRIPT = $(ARCH_COMMON_DIR)/$(STM_CHIP).ld
+STARTUP = startup_$(STM_CHIP)
 ifeq ($(STM_CHIP),stm32f4xx)
-	MCPU = cortex-m4
+    MCPU = cortex-m4
 endif
-ifeq ($(STM_CHIP),stm32l151_md)
-	MCPU = cortex-m3
+ifeq ($(STM_CHIP),stm32l1xx)
+    MCPU = cortex-m3
+    ifeq ($(STM_DENSITY),)
+        $(error Need to specify STM_DENSITY: hd md mdp)
+    endif
+    STM_DENSITY = md
+    LSCRIPT = $(ARCH_COMMON_DIR)/$(STM_CHIP)_$(STM_DENSITY).ld
+    STARTUP = startup_stm32l1xx_$(STM_DENSITY)
 endif
 ifeq ($(MCPU),)
-	$(error Unsupported STM_CHIP "$(STM_CHIP)")
-	$(echo Supported chips: stm32f4xx stm32l151_md)
+    $(error Unsupported STM_CHIP "$(STM_CHIP)")
+    $(echo Supported chips: stm32f4xx stm32l151_md)
 endif
 
 #  List of the objects files to be compiled/assembled
-PORT_OBJECTS = startup_$(STM_CHIP).o init-$(STM_CHIP).o io.o serial.o syscalls.o \
+PORT_OBJECTS = $(STARTUP).o init-$(STM_CHIP).o io.o serial.o syscalls.o \
 	       adc.o pwm.o timers.o i2c.o dma.o
 PORT_OBJECTS := $(addprefix $(ARCH_COMMON_DIR)/, $(PORT_OBJECTS))
 
-LSCRIPT=$(ARCH_COMMON_DIR)/$(STM_CHIP).ld
 
 DEBUG ?= -g
 OPTIMIZATION ?= 0
